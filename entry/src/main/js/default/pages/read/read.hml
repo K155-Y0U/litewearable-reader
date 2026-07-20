@@ -1,5 +1,0 @@
-<div class="container" onswipe="handleSwipe">
-    <div class="content-box">
-        <text class="content-text">{{textContent}}</text>
-    </div>
-</div>
