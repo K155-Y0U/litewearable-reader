@@ -1,0 +1,17 @@
+<div class="trans-container">
+
+    <text class="status-text">{{ tipText }}</text>
+
+    <div class="mock-btn" show="{{ showButtons }}" onclick="goToChangePackage">
+        <text class="btn-text" style="color: #ff4500;">修改/重置目标包名</text>
+    </div>
+
+    <div class="mock-btn" show="{{ showButtons }}" onclick="goToFileList">
+        <text class="btn-text" style="color: #32cd32;">查看文件列表</text>
+    </div>
+
+    <div class="mock-btn" show="{{ showButtons }}" onclick="onBtn2Click">
+        <text class="btn-text">{{ btn2Text }}</text>
+    </div>
+
+</div>

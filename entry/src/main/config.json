@@ -1,0 +1,42 @@
+{
+  "app": {
+    "vendor": "example",
+    "bundleName": "lite.weilan.reader",
+    "version": {
+      "code": 1000000,
+      "name": "1.0.0"
+    }
+  },
+  "deviceConfig": {},
+  "module": {
+    "deviceType": [
+      "liteWearable"
+    ],
+    "abilities": [
+      {
+        "name": "default",
+        "icon": "$media:icon",
+        "label": "$string:entry_MainAbility",
+        "type": "page"
+      }
+    ],
+    "distro": {
+      "moduleType": "entry",
+      "deliveryWithInstall": true,
+      "moduleName": "entry"
+    },
+    "js": [
+      {
+        "pages": [
+          "pages/index/index",
+          "pages/read/read",
+          "pages/pinyin/pinyin",
+          "pages/pinyincandidate/pinyincandidate",
+          "pages/trans/trans",
+          "pages/filelist/filelist"
+        ],
+        "name": "default"
+      }
+    ]
+  }
+}

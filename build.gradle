@@ -3,6 +3,17 @@ apply plugin: 'com.huawei.ohos.app'
 
 //For instructions on signature configuration, see https://developer.harmonyos.com/cn/docs/documentation/doc-guides-V3/ide_debug_device-0000001053822404-V3#section1112183053510
 ohos {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Users\\86132\\litereader.p12')
+            storePassword '00000019C5AF027639E74F6D37430B3ACBFF861863BDC8950BFBAF523A0D2661E6619CED1F9BBA508E'
+            keyAlias = '1'
+            keyPassword '0000001989349B204A03F08F71E6097090412C76EDD2BF06514CDBA32A0F1B28E66C4469BFAE98F99B'
+            signAlg = 'SHA256withECDSA'
+            profile file('D:\\project\\litereaderDebug.p7b')
+            certpath file('D:\\project\\litereader.cer')
+        }
+    }
     compileSdkVersion 7
 }
 

@@ -1,0 +1,57 @@
+/* pages/index/index.css */
+.container {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    padding-top: 20px;
+}
+
+/* 顶部按钮强行指定高度与外边距 */
+.nav-top-btn {
+    font-size: 22px;
+    color: #4169e1;
+    height: 35px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+/* 标题强行指定高度 */
+.main-title {
+    font-size: 26px;
+    color: #ffffff;
+    height: 40px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.empty-box {
+    width: 100%;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-tip {
+    font-size: 18px;
+    color: #8a8a8a;
+    text-align: center;
+}
+
+.book-list {
+    width: 100%;
+    height: 260px;
+}
+
+.book-item {
+    width: 100%;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-name {
+    font-size: 24px;
+    color: #e5e5e5;
+}

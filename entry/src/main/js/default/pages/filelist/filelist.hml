@@ -1,0 +1,25 @@
+<div class="container">
+
+    <text class="page-title">文件列表</text>
+    <text class="count-text">{{ countText }}</text>
+
+    <div class="empty-box" if="{{fileNames.length === 0 && !isLoading}}">
+        <text class="empty-tip">未找到任何文件</text>
+    </div>
+
+    <list class="file-list" else>
+        <list-item class="file-item" for="{{fileNames}}" onclick="openFile($idx)">
+            <text class="file-name">{{$item}}</text>
+        </list-item>
+    </list>
+
+    <div class="bottom-btns">
+        <div class="mock-btn" onclick="goBack">
+            <text class="btn-text">返回</text>
+        </div>
+        <div class="mock-btn" onclick="copyAll" if="{{txtCount > 0}}">
+            <text class="btn-text" style="color: #32cd32;">复制全部txt</text>
+        </div>
+    </div>
+
+</div>
