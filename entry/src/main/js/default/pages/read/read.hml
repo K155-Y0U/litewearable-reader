@@ -4,7 +4,7 @@
     <div class="read-column">
         <div class="header">
             <input type="button" class="back-btn" onclick="goBack" value="&lt;" />
-            <text class="status-text">{{ statusText }}</text>
+            <text class="status-text">{{ clockInfo }}</text>
         </div>
 
         <swiper

@@ -34,7 +34,7 @@ export default {
         isEndOfFile: false,
         timeText: '00:00',
         batteryLevel: '100',
-        statusText: '00:00  100%',
+        clockInfo: '00:00  100%',
         backgroundImage: '/common/read_bg.png',
         timerId: null
     },
@@ -60,6 +60,7 @@ export default {
         this.page0 = '正在加载中…';
         this.page1 = '';
         this.page2 = '';
+        this.clockInfo = this.timeText + '  ' + this.batteryLevel + '%';
 
         this.updateSystemInfo();
         this.startTimeUpdate();
@@ -103,7 +104,7 @@ export default {
         var date = new Date();
         that.timeText = (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' +
             (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-        that.statusText = that.timeText + '  ' + that.batteryLevel + '%';
+        that.clockInfo = that.timeText + '  ' + that.batteryLevel + '%';
 
         try {
             battery.getStatus({
@@ -112,7 +113,7 @@ export default {
                         return;
                     }
                     that.batteryLevel = Math.floor(data.level <= 1 ? data.level * 100 : data.level).toString();
-                    that.statusText = that.timeText + '  ' + that.batteryLevel + '%';
+                    that.clockInfo = that.timeText + '  ' + that.batteryLevel + '%';
                 }
             });
         } catch (e) {

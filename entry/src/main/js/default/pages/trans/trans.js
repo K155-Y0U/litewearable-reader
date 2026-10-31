@@ -328,16 +328,20 @@ export default {
         var cacheUri = 'internal://cache/' + fileName;
 
         this.checkUriExists(appUri, function(existsInApp) {
-            if (existsInApp) {
-                callback(true);
-                return;
-            }
             that.checkUriExists(cacheUri, function(existsInCache) {
-                if (!existsInCache) {
-                    callback(false);
+                if (existsInCache) {
+                    if (existsInApp) {
+                        // A new transfer with the same name must replace the old
+                        // file, otherwise an old GBK/UTF-8 copy would be kept.
+                        that.removeFileIfExists(appUri, function() {
+                            that.migrateFromCache(cacheUri, appUri, callback);
+                        });
+                    } else {
+                        that.migrateFromCache(cacheUri, appUri, callback);
+                    }
                     return;
                 }
-                that.migrateFromCache(cacheUri, appUri, callback);
+                callback(existsInApp);
             });
         });
     },
