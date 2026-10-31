@@ -1,28 +1,42 @@
 /* pages/read/read.css */
-.read-stack {
+.read-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     width: 100%;
     height: 100%;
+    padding-top: 14px;
     background-color: #000000;
 }
 
-.read-bg {
-    width: 100%;
-    height: 100%;
+.swiper {
+    width: 280px;
+    height: 280px;
+    border-radius: 12px;
 }
 
-.container {
-    flex-direction: column;
+.page {
+    width: 280px;
+    height: 280px;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
 }
 
-.content-text {
-    width: 340px;
-    height: 340px;
-    font-size: 22px;
-    color: #e5e5e5;
+.page-0 {
+    background-color: #1c2a3a;
+}
+
+.page-1 {
+    background-color: #2a1c3a;
+}
+
+.page-2 {
+    background-color: #1c3a2a;
+}
+
+.content {
+    width: 250px;
+    font-size: 24px;
+    color: #ffffff;
     text-align: center;
 }
