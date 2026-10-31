@@ -3,7 +3,7 @@
 
     <swiper
         class="swiper"
-        loop="true"
+        loop="false"
         duration="200"
         vertical="true"
         onchange="onSwiperChange">
