@@ -9,47 +9,54 @@
 }
 
 .top-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
-    height: 40px;
-    align-items: flex-start;
-    justify-content: flex-start;
+    height: 34px;
     padding-left: 10px;
+    padding-right: 14px;
 }
 
 .back-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 26px;
+    width: 34px;
+    height: 34px;
+    font-size: 24px;
     color: #ffffff;
     background-color: #1c1c1e;
     border-radius: 999px;
 }
 
+.status-text {
+    font-size: 14px;
+    color: #8a8a8a;
+}
+
 .swiper {
-    width: 340px;
-    height: 340px;
+    width: 360px;
+    height: 360px;
 }
 
 .page {
-    width: 340px;
-    height: 340px;
+    width: 360px;
+    height: 360px;
 }
 
 .page-stack {
-    width: 340px;
-    height: 340px;
+    width: 360px;
+    height: 360px;
     justify-content: center;
     align-items: center;
 }
 
 .page-bg {
-    width: 340px;
-    height: 340px;
+    width: 360px;
+    height: 360px;
 }
 
 .content {
-    width: 320px;
-    height: 320px;
+    width: 340px;
+    height: 350px;
     font-size: 22px;
     color: #e5e5e5;
     text-align: center;

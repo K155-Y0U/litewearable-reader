@@ -1,6 +1,7 @@
 <div class="read-root">
     <div class="top-bar">
         <input type="button" class="back-btn" onclick="goBack" value="‹" />
+        <text class="status-text">{{ statusText }}</text>
     </div>
 
     <swiper

@@ -28,12 +28,13 @@ export default {
         page2: '',
         currentIndex: 0,
         visibleIndex: 0,
-        pageSize: 90,
+        pageSize: 140,
         filePosition: 0,
         readBlockSize: 1000,
         isEndOfFile: false,
         timeText: '00:00',
         batteryLevel: '100',
+        statusText: '00:00  100%',
         backgroundImage: '/common/read_bg.png',
         timerId: null
     },
@@ -102,6 +103,7 @@ export default {
         var date = new Date();
         that.timeText = (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' +
             (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
+        that.statusText = that.timeText + '  ' + that.batteryLevel + '%';
 
         try {
             battery.getStatus({
@@ -110,9 +112,7 @@ export default {
                         return;
                     }
                     that.batteryLevel = Math.floor(data.level <= 1 ? data.level * 100 : data.level).toString();
-                    if (that.fullText.length > 0) {
-                        that.renderAll();
-                    }
+                    that.statusText = that.timeText + '  ' + that.batteryLevel + '%';
                 }
             });
         } catch (e) {
@@ -276,23 +276,21 @@ export default {
     },
 
     getPageAt(offset) {
-        var head = '[' + this.timeText + '  电量:' + this.batteryLevel + '%]\n\n';
-
         if (offset < 0) {
-            return head + '已经是第一页';
+            return '已经是第一页';
         }
         if (offset >= this.fullText.length) {
             if (this.isEndOfFile) {
-                return head + '--- 本书已读完 ---';
+                return '--- 本书已读完 ---';
             }
-            return head + '正在加载…';
+            return '正在加载…';
         }
 
         var end = offset + this.pageSize;
         if (end > this.fullText.length) {
             end = this.fullText.length;
         }
-        return head + this.fullText.substring(offset, end);
+        return this.fullText.substring(offset, end);
     },
 
     onSwiperChange(e) {
