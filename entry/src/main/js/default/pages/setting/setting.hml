@@ -9,6 +9,7 @@
 
     <input type="button" class="setting-btn" onclick="goToTrans" value="去传输页更换背景" />
     <input type="button" class="setting-btn" style="color: #ff6b60;" onclick="resetBackground" value="恢复默认背景" />
+    <input type="button" class="setting-btn" style="color: #a0a0a0;" onclick="goToSwiperTest" value="Swiper 组件测试" />
 
     <text class="status-text" if="{{ statusText }}">{{ statusText }}</text>
 

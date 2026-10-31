@@ -108,6 +108,10 @@ export default {
         router.replace({ uri: 'pages/trans/trans' });
     },
 
+    goToSwiperTest() {
+        router.replace({ uri: 'pages/swipertest/swipertest' });
+    },
+
     goBack() {
         router.replace({ uri: 'pages/index/index' });
     }
