@@ -86,15 +86,24 @@ peerFingerPrint: 'lite.wearable.reader_...'
 
 ### 自定义背景
 
-手机通过 WearEngine 发送图片即可更新阅读背景：
+Lite Wearable 的 `internal://app/` 图片只能使用构建链生成的 `.bin` 格式，不能直接放 PNG/JPG。手机通过 WearEngine 发送 `.bin` 即可更新阅读背景。
 
-- 支持 `.png`、`.jpg`、`.jpeg`、`.bmp`。
-- 文件大小限制 300KB；超过会拒绝并删除临时文件。
-- 图片保存为 `internal://app/custom_bg.<ext>`，路径写入 storage 的 `bg_path`。
-- 阅读页打开时读取 `bg_path`，通过 `file.get` 校验存在和大小，再绑定到 `<image src="{{backgroundImage}}">`；失败回退内置背景。
+转换工具：
+
+```powershell
+.\tools\convert-to-litebin.ps1 -InputPath .\background.png -OutputPath .\custom_bg.bin -Size 466
+```
+
+- 输入支持 PNG/JPG/BMP，输出为 Lite `.bin`。
+- 建议尺寸 466×466，最大 512×512。
+- `.bin` 格式：8 字节头（magic `256`、`width | (height << 16)`）+ BGRA 像素，每像素 4 字节。
+- 发送生成后的 `.bin` 文件到手表传输页。
+- 文件固定保存为 `internal://app/custom_bg.bin`，路径写入 storage 的 `bg_path`。
+- 传输时会校验 `.bin` 头、尺寸和文件长度；无效文件会被拒绝并删除临时文件。
+- 阅读页打开时读取 `bg_path`，再次校验后绑定到 `<image src="{{backgroundImage}}">`；失败回退内置背景。
 - 传输页提供“恢复默认背景”按钮，会删除自定义文件并清空 `bg_path`。
 
-注意：`internal://app/...` 图片渲染和图片池占用必须真机验证。手机端应先把图片缩放到约 466×466（或目标表盘适配分辨率）再发送；300KB 的压缩体积不能保证解码体积安全。
+注意：`internal://app/*.bin` 图片渲染和图片池占用必须真机验证。README 中的内置背景 `/common/read_bg.png` 会在构建时自动转换为 `read_bg.bin`，和应用内固定资源不是同一条路径。
 
 ## 已知限制
 

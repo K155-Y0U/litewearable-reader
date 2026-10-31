@@ -2,8 +2,7 @@ import router from '@system.router';
 import file from '@system.file';
 import storage from '@system.storage';
 import { P2pClient } from '../wearengine.js';
-
-var MAX_BG_BYTES = 300 * 1024;
+import { validateLiteBin } from '../../common/litebin.js';
 
 /**
  * WearEngine transfer page.
@@ -142,8 +141,11 @@ export default {
             this.appendLog('收到文件: ' + fileName);
             if (ext === '.txt') {
                 this.receiveNovel(fileName);
-            } else if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.bmp') {
+            } else if (ext === '.bin') {
                 this.receiveBackground(fileName);
+            } else if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.bmp') {
+                this.appendLog('背景图需先转换为 Lite bin: ' + fileName);
+                this.setStatus('请发送 Lite bin 背景图');
             } else {
                 this.appendLog('忽略不支持的文件: ' + fileName);
             }
@@ -168,12 +170,7 @@ export default {
 
     receiveBackground(fileName) {
         var that = this;
-        var ext = this.getExtName(fileName).toLowerCase();
-        if (ext === '.jpeg') {
-            ext = '.jpg';
-        }
-        var targetName = 'custom_bg' + ext;
-        var targetUri = 'internal://app/' + targetName;
+        var targetUri = 'internal://app/custom_bg.bin';
 
         this.setStatus('接收背景: ' + fileName);
         this.locateReceivedFile(fileName, function(srcUri) {
@@ -183,29 +180,22 @@ export default {
                 return;
             }
 
-            file.get({
-                uri: srcUri,
-                success: function(data) {
-                    if (data && data.length > MAX_BG_BYTES) {
-                        that.appendLog('背景图过大，已忽略: ' + fileName);
-                        that.setStatus('背景图请控制在 300KB 内');
-                        that.removeFileIfExists(srcUri, function() {});
-                        return;
-                    }
-                    that.installBackground(srcUri, targetUri, function(success) {
-                        if (success) {
-                            that.appendLog('背景图已更新: ' + targetName);
-                            that.setStatus('背景图已更新');
-                        } else {
-                            that.appendLog('背景图保存失败: ' + fileName);
-                            that.setStatus('背景图保存失败');
-                        }
-                    });
-                },
-                fail: function() {
-                    that.appendLog('无法检查背景图大小: ' + fileName);
-                    that.setStatus('背景图保存失败');
+            validateLiteBin(srcUri, function(valid) {
+                if (!valid) {
+                    that.appendLog('不是有效的 Lite bin 背景: ' + fileName);
+                    that.setStatus('背景图格式错误');
+                    that.removeFileIfExists(srcUri, function() {});
+                    return;
                 }
+                that.installBackground(srcUri, targetUri, function(success) {
+                    if (success) {
+                        that.appendLog('背景图已更新: custom_bg.bin');
+                        that.setStatus('背景图已更新');
+                    } else {
+                        that.appendLog('背景图保存失败: ' + fileName);
+                        that.setStatus('背景图保存失败');
+                    }
+                });
             });
         });
     },

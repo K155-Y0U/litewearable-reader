@@ -7,8 +7,7 @@ import file from '@system.file';
 import router from '@system.router';
 import storage from '@system.storage';
 import battery from '@system.battery';
-
-var MAX_BG_BYTES = 300 * 1024;
+import { validateLiteBin } from '../../common/litebin.js';
 
 function progressKey(bookName) {
     var hash = 0;
@@ -120,21 +119,11 @@ export default {
 
     checkBackground(path) {
         var that = this;
-        file.get({
-            uri: path,
-            success: function(data) {
-                if (!that._active) {
-                    return;
-                }
-                if (data && data.length > 0 && data.length <= MAX_BG_BYTES) {
-                    that.backgroundImage = path;
-                } else {
-                    that.backgroundImage = '/common/read_bg.png';
-                }
-            },
-            fail: function() {
-                that.backgroundImage = '/common/read_bg.png';
+        validateLiteBin(path, function(valid) {
+            if (!that._active) {
+                return;
             }
+            that.backgroundImage = valid ? path : '/common/read_bg.png';
         });
     },
 

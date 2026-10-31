@@ -11,7 +11,7 @@
         </list-item>
     </list>
 
-    <text class="hint-text">保持本页在前台：发送 TXT 保存到书架，发送 PNG/JPG/BMP 更新阅读背景（≤300KB）</text>
+    <text class="hint-text">保持本页在前台：发送 TXT 保存到书架，发送 Lite .bin 更新阅读背景（≤512×512）</text>
 
     <div class="back-btn-trans" onclick="goBack">
         <text class="back-btn-trans-text">返回书架</text>
