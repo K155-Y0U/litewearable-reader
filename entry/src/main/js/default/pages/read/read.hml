@@ -1,3 +1,7 @@
-<div class="container" onswipe="handleSwipe">
-    <text class="content-text">{{textContent}}</text>
-</div>
+<stack class="read-stack">
+    <image class="read-bg" src="/common/read_bg.png" />
+
+    <div class="container" onswipe="handleSwipe">
+        <text class="content-text">{{ textContent }}</text>
+    </div>
+</stack>

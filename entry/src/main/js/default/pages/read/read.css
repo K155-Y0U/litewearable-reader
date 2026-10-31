@@ -1,12 +1,24 @@
-/* pages/read/read.css — 完全恢复 old version 极简版，不再加多余 padding/内边距 */
+/* pages/read/read.css */
+.read-stack {
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+}
+
+.read-bg {
+    width: 100%;
+    height: 100%;
+}
+
 .container {
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: #000000;
+    background-color: transparent;
 }
+
 .content-text {
     width: 340px;
     height: 340px;

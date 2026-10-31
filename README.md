@@ -8,6 +8,7 @@
 
 - 扫描 `internal://app/` 下的本地 TXT 书籍，点击阅读，长按删除。
 - 分块加载 + 固定字符分页，滑动翻页，断点进度保存。
+- 阅读页内置深色阅读背景，正文显示在背景图上。
 - WearEngine 文件接收：自动处理 `internal://app/` 与 `internal://cache/`，文件就绪后书架可见。
 - 阅读页顶部显示时间、电量和当前页内容。
 - 传输页显示连接状态和接收日志。
@@ -65,6 +66,22 @@ peerFingerPrint: 'lite.wearable.reader_...'
 - `onDestroy` 停止定时器并释放全文文本。
 
 这个方案优先保证兼容性和正常显示，但会把整本书逐步读入内存。对于超大 TXT，64KB / 256KB heap 设备仍可能内存不足。后续如需优化，应先在目标真机上验证 `readText` 的 `position/length` 单位和分页 seek 行为，再改窗口化读取。
+
+## 阅读背景
+
+阅读页使用 `stack` 叠放背景图和正文：
+
+```html
+<stack class="read-stack">
+    <image class="read-bg" src="/common/read_bg.png" />
+    <div class="container" onswipe="handleSwipe">...</div>
+</stack>
+```
+
+- 背景图位于 `entry/src/main/js/default/common/read_bg.png`，按 Lite 规范使用 `/common/...` 绝对路径。
+- 当前素材为 336×336 的深色渐变图，解码约 0.43 MiB，同屏只有这一张背景图。
+- 图片文件名保持英文 ASCII；若要更换，直接替换 `read_bg.png`，保持文件名和引用一致。
+- 背景图是应用内固定资源，不使用 `@system.file` 读取，不写入 `rawfile`。
 
 ## 已知限制
 
