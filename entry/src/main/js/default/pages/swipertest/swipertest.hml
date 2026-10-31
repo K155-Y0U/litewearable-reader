@@ -1,18 +1,20 @@
 <div class="container">
-    <text class="title">Swiper 测试</text>
+    <text class="title">Swiper 上下无缝</text>
 
-    <swiper class="swiper" index="{{ currentIndex }}" loop="false" duration="200" vertical="false" onchange="onChange">
+    <text class="hint">上下滑动，看是否循环</text>
+
+    <swiper class="swiper" loop="true" duration="200" vertical="true" onchange="onChange">
         <div class="page page-one">
-            <text class="page-text">第 1 页\n左右滑动</text>
+            <text class="page-text">第 1 页</text>
         </div>
         <div class="page page-two">
-            <text class="page-text">第 2 页\nSwiper 渲染成功</text>
+            <text class="page-text">第 2 页</text>
         </div>
         <div class="page page-three">
-            <text class="page-text">第 3 页\nchange 事件可用</text>
+            <text class="page-text">第 3 页</text>
         </div>
     </swiper>
 
-    <text class="status">当前索引: {{ currentIndex }} / 切换次数: {{ changeCount }}</text>
+    <text class="status">索引: {{ currentIndex }} / 切换: {{ changeCount }}</text>
     <input type="button" class="back" onclick="goBack" value="返回设置" />
 </div>
