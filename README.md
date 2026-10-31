@@ -57,12 +57,20 @@ entry/build/outputs/hap/debug/entry-bin-debug-lite-signed.hap
 手表端在 `pages/trans/trans.js` 中配置手机应用身份：
 
 ```js
-peerPkgName: 'lite.wearable.reader',
-peerFingerPrint: 'lite.wearable.reader_...'
+peerPkgName: 'tool.weilan.jsreader',
+peerFingerPrint: 'tool.weilan.jsreader_A75229A39DDE148CD01E1A9306ABDC5B283139CEDA7F2210D37F3097FA9A5B90'
 ```
 
-- `peerPkgName` 是手机侧应用包名。
+手机端配套 App 位于：
+
+```text
+D:\project\read\jsreader
+```
+
+- `peerPkgName` 是手机侧应用包名，当前为 `tool.weilan.jsreader`。
 - `peerFingerPrint` 必须与手机侧签名证书指纹、AGC/Wear Engine 配置严格一致。
+- 手机端重新签名后，需要同步修改 `trans.js` 和手机端 `WATCH_EXPECTED_PHONE_FINGER`。
+- 手机端选择背景图片后会自动转换为 466×466 的 Lite `.bin` 再发送。
 - 手机侧需要申请 Wear Engine 服务权限。
 - 传输时手表必须停留在传输页，离开页面会注销接收器。
 - 低版本固件可能先把文件写入 `internal://cache/`，接收页会尝试 `move`，失败后 `copy` 到 `internal://app/`。
@@ -108,6 +116,7 @@ Lite Wearable 的 `internal://app/` 图片只能使用构建链生成的 `.bin` 
 
 - 输入支持 PNG/JPG/BMP，输出为 Lite `.bin`。
 - 建议尺寸 466×466，最大 512×512。
+- Android 手机端 `D:\project\read\jsreader` 的“选择阅读背景图片”也会自动执行同样的转换。
 - `.bin` 格式：8 字节头（magic `256`、`width | (height << 16)`）+ BGRA 像素，每像素 4 字节。
 - 发送生成后的 `.bin` 文件到手表传输页。
 - 文件固定保存为 `internal://app/custom_bg.bin`，路径写入 storage 的 `bg_path`。

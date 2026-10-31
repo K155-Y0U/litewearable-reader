@@ -20,8 +20,12 @@ export default {
         statusText: '等待连接…',
         messageLog: ['等待手机发送文件…'],
         client: null,
-        peerPkgName: 'lite.wearable.reader',
-        peerFingerPrint: 'lite.wearable.reader_MDRlZDYxYTA2NDNjNjYwYTBjYzMyN2E3MzEwODgyYjYyYjgxZThmZjYyMTRjYTI0NGY2ZDIzZjRhZmMxODVmZGVjMTFjMGM4MGMxMmNjZGE3NDhmNmUxMTlhMTM4MzM3MTJmZmEyYzhlMDYwZDIwY2MwMWUzNGRjNDljODVmNjY2MA=='
+        // Phone companion app: D:\project\read\jsreader, package tool.weilan.jsreader.
+        // If the phone app is re-signed, update both values.
+        peerPkgName: 'tool.weilan.jsreader',
+        // If the SDK rejects the raw SHA256 form, try:
+        // tool.weilan.jsreader_QTc1MjI5QTM5RERFMTQ4Q0QwMUUxQTkzMDZBQkRDNUIyODMxMzlDRURBN0YyMjEwRDM3RjMwOTdGQTlBNUI5MA==
+        peerFingerPrint: 'tool.weilan.jsreader_A75229A39DDE148CD01E1A9306ABDC5B283139CEDA7F2210D37F3097FA9A5B90'
     },
 
     onInit() {
