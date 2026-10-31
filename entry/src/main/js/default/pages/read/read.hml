@@ -1,24 +1,22 @@
-<stack class="read-stack">
-    <image class="read-bg" src="{{ backgroundImage }}" />
-
+<div class="read-container">
     <swiper
         class="swiper"
         loop="false"
         duration="200"
         vertical="true"
         onchange="onSwiperChange">
-        <div class="page page-0">
-            <text class="content">{{ page0 }}</text>
+        <div class="page">
+            <text class="content">第 1 页\n这是文字</text>
         </div>
-        <div class="page page-1">
-            <text class="content">{{ page1 }}</text>
+        <div class="page">
+            <text class="content">第 2 页\n继续向上滑</text>
         </div>
-        <div class="page page-2">
-            <text class="content">{{ page2 }}</text>
+        <div class="page">
+            <text class="content">第 3 页\n再滑一次</text>
         </div>
     </swiper>
 
     <div class="back-area">
         <input type="button" class="back-btn" onclick="goBack" value="‹" />
     </div>
-</stack>
+</div>
