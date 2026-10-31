@@ -1,7 +1,13 @@
 <stack class="read-stack">
     <image class="read-bg" src="{{ backgroundImage }}" />
 
-    <swiper class="swiper" loop="true" duration="200" vertical="true" onchange="onSwiperChange">
+    <swiper
+        class="swiper"
+        :index="swiperIndex"
+        loop="true"
+        duration="200"
+        vertical="true"
+        onchange="onSwiperChange">
         <div class="page page-0">
             <text class="content">{{ page0 }}</text>
         </div>

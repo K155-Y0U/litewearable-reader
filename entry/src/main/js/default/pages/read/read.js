@@ -20,7 +20,7 @@ function progressKey(bookName) {
     return 'p_' + hash.toString(16);
 }
 
-function prefix(fullText, timeText, batteryLevel) {
+function prefix(timeText, batteryLevel) {
     return '[' + timeText + '  电量:' + batteryLevel + '%]';
 }
 
@@ -29,17 +29,16 @@ export default {
         bookName: '',
         fullText: '',
         swiperIndex: 1,
-        page0: '正在加载中…',
-        page1: '',
+        page0: '',
+        page1: '正在加载中…',
         page2: '',
-        currentIndex: 0,   // 当前显示页起始字符偏移
+        currentIndex: 0,
         pageSize: 90,
         filePosition: 0,
         readBlockSize: 1000,
         isEndOfFile: false,
         timeText: '00:00',
         batteryLevel: '100',
-        progressText: '0%',
         backgroundImage: '/common/read_bg.png',
         timerId: null
     },
@@ -145,6 +144,13 @@ export default {
         });
     },
 
+    /**
+     * 从保存的进度开始阅读（或从头开始）
+     */
+    startReading() {
+        this.loadAhead();
+    },
+
     loadSavedProgress() {
         var that = this;
         storage.get({
@@ -168,19 +174,15 @@ export default {
     },
 
     /**
-     * 流式加载文本，直到覆盖三个页面所需的字符数
+     * 向前加载文本直到覆盖当前页及后续两页
      */
     loadAhead() {
-        var that = this;
-        // 需要覆盖：currentIndex ~ currentIndex + pageSize*3
-        var neededEnd = this.currentIndex + this.pageSize * 3;
-        if (this.fullText.length >= neededEnd && !this.isEndOfFile) {
-            return;
-        }
-        if (this.isEndOfFile) {
+        if (this.isEndOfFile && this.fullText.length >= this.currentIndex + this.pageSize) {
+            this.renderPages();
             return;
         }
 
+        var that = this;
         file.readText({
             uri: 'internal://app/' + that.bookName,
             position: that.filePosition,
@@ -189,11 +191,10 @@ export default {
                 var newText = data.text || '';
                 if (newText.length === 0) {
                     that.isEndOfFile = true;
-                    that.renderPages();
-                    return;
+                } else {
+                    that.fullText += newText;
+                    that.filePosition += that.readBlockSize;
                 }
-                that.fullText += newText;
-                that.filePosition += that.readBlockSize;
                 that.renderPages();
             },
             fail: function() {
@@ -204,7 +205,7 @@ export default {
     },
 
     /**
-     * 将 fullText 按 pageIndex 切片渲染到 page0/page1/page2
+     * 根据 currentIndex 渲染三页内容
      */
     renderPages() {
         if (!this._active) return;
@@ -220,38 +221,43 @@ export default {
 
         if (startOffset >= this.fullText.length) {
             if (this.isEndOfFile) {
-                return '--- 本书已读完 ---';
+                return prefix(this.timeText, this.batteryLevel) + '\n\n--- 本书已读完 ---';
             }
             return '';
         }
         end = Math.min(end, this.fullText.length);
-        return prefix(this.fullText, this.timeText, this.batteryLevel) + '\n\n' +
+        return prefix(this.timeText, this.batteryLevel) + '\n\n' +
             this.fullText.substring(startOffset, end);
     },
 
     /**
      * swiper change 回调
-     * index=2 表示用户滑到了下一页，index=0 表示滑回了上一页
+     * index=2 → 向前翻页，index=0 → 向后翻页
      */
     onSwiperChange(e) {
         if (!this._active) return;
         var newIndex = e.index;
 
         if (newIndex === 2) {
-            // 向前滑动：当前页变成前一页，加载下一页
+            // 向前翻页
             this.currentIndex += this.pageSize;
             this.saveCurrentProgress();
+            // 预取下一页
+            this.loadAhead();
+            // 将 page1/page2 提升为前两个 slot，然后重新渲染
             this.page0 = this.page1;
             this.page1 = this.page2;
-            this.loadAhead();
-            this.swiperIndex = 1; // 重置回中间页，内容已更新
+            this.page2 = '';
+            // 强制 swiper 跳回中间页
+            this.swiperIndex = 1;
         } else if (newIndex === 0) {
-            // 向后滑动：当前页变成后一页，加载上一页
+            // 向后翻页
             this.currentIndex = Math.max(0, this.currentIndex - this.pageSize);
             this.saveCurrentProgress();
-            this.page2 = this.page1;
-            this.page1 = this.page0;
-            this.loadAhead();
+            // 重新计算三页（不依赖旧数据，避免错位）
+            this.page0 = this.getPageAt(this.currentIndex - this.pageSize);
+            this.page1 = this.getPageAt(this.currentIndex);
+            this.page2 = this.getPageAt(this.currentIndex + this.pageSize);
             this.swiperIndex = 1;
         }
     },
