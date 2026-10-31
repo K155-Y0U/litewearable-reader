@@ -38,13 +38,17 @@
 }
 
 .status-text {
+    width: 120px;
+    height: 22px;
     font-size: 13px;
-    color: #8a8a8a;
+    color: #ffffff;
+    text-align: left;
 }
 
 .swiper {
     width: 360px;
     height: 360px;
+    background-color: transparent;
 }
 
 .page {
@@ -52,6 +56,7 @@
     height: 360px;
     justify-content: center;
     align-items: center;
+    background-color: transparent;
 }
 
 .content {
