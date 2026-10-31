@@ -11,9 +11,11 @@
         </list-item>
     </list>
 
-    <text class="hint-text">请保持本页在前台，手机发送 TXT 后自动保存到书架</text>
+    <text class="hint-text">保持本页在前台：发送 TXT 保存到书架，发送 PNG/JPG/BMP 更新阅读背景（≤300KB）</text>
 
     <div class="back-btn-trans" onclick="goBack">
         <text class="back-btn-trans-text">返回书架</text>
     </div>
+
+    <input type="button" class="reset-bg-btn" onclick="resetBackground" value="恢复默认背景" />
 </div>

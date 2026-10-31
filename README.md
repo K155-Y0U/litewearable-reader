@@ -73,15 +73,28 @@ peerFingerPrint: 'lite.wearable.reader_...'
 
 ```html
 <stack class="read-stack">
-    <image class="read-bg" src="/common/read_bg.png" />
+    <image class="read-bg" src="{{ backgroundImage }}" />
     <div class="container" onswipe="handleSwipe">...</div>
 </stack>
 ```
 
-- 背景图位于 `entry/src/main/js/default/common/read_bg.png`，按 Lite 规范使用 `/common/...` 绝对路径。
-- 当前素材为 336×336 的深色渐变图，解码约 0.43 MiB，同屏只有这一张背景图。
-- 图片文件名保持英文 ASCII；若要更换，直接替换 `read_bg.png`，保持文件名和引用一致。
-- 背景图是应用内固定资源，不使用 `@system.file` 读取，不写入 `rawfile`。
+### 内置背景
+
+- 默认背景位于 `entry/src/main/js/default/common/read_bg.png`，按 Lite 规范使用 `/common/...` 绝对路径。
+- 当前素材为 336×336 的深色渐变图，解码约 0.43 MiB。
+- 图片文件名保持英文 ASCII；替换时保持文件名和引用一致。
+
+### 自定义背景
+
+手机通过 WearEngine 发送图片即可更新阅读背景：
+
+- 支持 `.png`、`.jpg`、`.jpeg`、`.bmp`。
+- 文件大小限制 300KB；超过会拒绝并删除临时文件。
+- 图片保存为 `internal://app/custom_bg.<ext>`，路径写入 storage 的 `bg_path`。
+- 阅读页打开时读取 `bg_path`，通过 `file.get` 校验存在和大小，再绑定到 `<image src="{{backgroundImage}}">`；失败回退内置背景。
+- 传输页提供“恢复默认背景”按钮，会删除自定义文件并清空 `bg_path`。
+
+注意：`internal://app/...` 图片渲染和图片池占用必须真机验证。手机端应先把图片缩放到约 466×466（或目标表盘适配分辨率）再发送；300KB 的压缩体积不能保证解码体积安全。
 
 ## 已知限制
 

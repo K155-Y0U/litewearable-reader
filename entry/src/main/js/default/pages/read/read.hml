@@ -1,5 +1,5 @@
 <stack class="read-stack">
-    <image class="read-bg" src="/common/read_bg.png" />
+    <image class="read-bg" src="{{ backgroundImage }}" />
 
     <div class="container" onswipe="handleSwipe">
         <text class="content-text">{{ textContent }}</text>

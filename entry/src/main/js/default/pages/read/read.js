@@ -8,6 +8,8 @@ import router from '@system.router';
 import storage from '@system.storage';
 import battery from '@system.battery';
 
+var MAX_BG_BYTES = 300 * 1024;
+
 function progressKey(bookName) {
     var hash = 0;
     for (var i = 0; i < bookName.length; i++) {
@@ -29,6 +31,7 @@ export default {
         timeText: '00:00',
         batteryLevel: '100',
         progressText: '0%',
+        backgroundImage: '/common/read_bg.png',
         timerId: null
     },
     onInit() {
@@ -47,6 +50,7 @@ export default {
 
         this.updateSystemInfo();
         this.startTimeUpdate();
+        this.loadBackground();
         this.loadSavedProgress();
     },
     onHide() {
@@ -97,6 +101,43 @@ export default {
             console.error(e.message);
         }
     },
+    loadBackground() {
+        var that = this;
+        storage.get({
+            key: 'bg_path',
+            success: function(path) {
+                if (!that._active || !path) {
+                    that.backgroundImage = '/common/read_bg.png';
+                    return;
+                }
+                that.checkBackground(path);
+            },
+            fail: function() {
+                that.backgroundImage = '/common/read_bg.png';
+            }
+        });
+    },
+
+    checkBackground(path) {
+        var that = this;
+        file.get({
+            uri: path,
+            success: function(data) {
+                if (!that._active) {
+                    return;
+                }
+                if (data && data.length > 0 && data.length <= MAX_BG_BYTES) {
+                    that.backgroundImage = path;
+                } else {
+                    that.backgroundImage = '/common/read_bg.png';
+                }
+            },
+            fail: function() {
+                that.backgroundImage = '/common/read_bg.png';
+            }
+        });
+    },
+
     loadSavedProgress() {
         var that = this;
         storage.get({

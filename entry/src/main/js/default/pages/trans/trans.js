@@ -1,6 +1,9 @@
 import router from '@system.router';
 import file from '@system.file';
+import storage from '@system.storage';
 import { P2pClient } from '../wearengine.js';
+
+var MAX_BG_BYTES = 300 * 1024;
 
 /**
  * WearEngine transfer page.
@@ -139,8 +142,10 @@ export default {
             this.appendLog('收到文件: ' + fileName);
             if (ext === '.txt') {
                 this.receiveNovel(fileName);
+            } else if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.bmp') {
+                this.receiveBackground(fileName);
             } else {
-                this.appendLog('忽略非 txt 文件: ' + fileName);
+                this.appendLog('忽略不支持的文件: ' + fileName);
             }
         } else if (typeof message === 'string') {
             this.appendLog('文本消息: ' + message);
@@ -159,6 +164,160 @@ export default {
                 that.setStatus('文件保存失败');
             }
         });
+    },
+
+    receiveBackground(fileName) {
+        var that = this;
+        var ext = this.getExtName(fileName).toLowerCase();
+        if (ext === '.jpeg') {
+            ext = '.jpg';
+        }
+        var targetName = 'custom_bg' + ext;
+        var targetUri = 'internal://app/' + targetName;
+
+        this.setStatus('接收背景: ' + fileName);
+        this.locateReceivedFile(fileName, function(srcUri) {
+            if (!srcUri) {
+                that.appendLog('背景图不存在: ' + fileName);
+                that.setStatus('背景图保存失败');
+                return;
+            }
+
+            file.get({
+                uri: srcUri,
+                success: function(data) {
+                    if (data && data.length > MAX_BG_BYTES) {
+                        that.appendLog('背景图过大，已忽略: ' + fileName);
+                        that.setStatus('背景图请控制在 300KB 内');
+                        that.removeFileIfExists(srcUri, function() {});
+                        return;
+                    }
+                    that.installBackground(srcUri, targetUri, function(success) {
+                        if (success) {
+                            that.appendLog('背景图已更新: ' + targetName);
+                            that.setStatus('背景图已更新');
+                        } else {
+                            that.appendLog('背景图保存失败: ' + fileName);
+                            that.setStatus('背景图保存失败');
+                        }
+                    });
+                },
+                fail: function() {
+                    that.appendLog('无法检查背景图大小: ' + fileName);
+                    that.setStatus('背景图保存失败');
+                }
+            });
+        });
+    },
+
+    locateReceivedFile(fileName, callback) {
+        var that = this;
+        var appUri = 'internal://app/' + fileName;
+        var cacheUri = 'internal://cache/' + fileName;
+        this.checkUriExists(appUri, function(existsInApp) {
+            if (existsInApp) {
+                callback(appUri);
+                return;
+            }
+            that.checkUriExists(cacheUri, function(existsInCache) {
+                callback(existsInCache ? cacheUri : '');
+            });
+        });
+    },
+
+    installBackground(srcUri, targetUri, callback) {
+        var that = this;
+        if (srcUri === targetUri) {
+            this.activateBackground(targetUri, function() {
+                callback(true);
+            });
+            return;
+        }
+
+        this.removeFileIfExists(targetUri, function() {
+            try {
+                file.move({
+                    srcUri: srcUri,
+                    dstUri: targetUri,
+                    success: function() {
+                        that.activateBackground(targetUri, function() {
+                            callback(true);
+                        });
+                    },
+                    fail: function() {
+                        try {
+                            file.copy({
+                                srcUri: srcUri,
+                                dstUri: targetUri,
+                                success: function() {
+                                    that.removeFileIfExists(srcUri, function() {
+                                        that.activateBackground(targetUri, function() {
+                                            callback(true);
+                                        });
+                                    });
+                                },
+                                fail: function() {
+                                    callback(false);
+                                }
+                            });
+                        } catch (e) {
+                            callback(false);
+                        }
+                    }
+                });
+            } catch (e) {
+                callback(false);
+            }
+        });
+    },
+
+    removeFileIfExists(uri, callback) {
+        try {
+            file.delete({
+                uri: uri,
+                success: function() {
+                    callback();
+                },
+                fail: function() {
+                    callback();
+                }
+            });
+        } catch (e) {
+            callback();
+        }
+    },
+
+    activateBackground(newUri, callback) {
+        var that = this;
+        storage.get({
+            key: 'bg_path',
+            success: function(oldUri) {
+                var applyNewPath = function() {
+                    that.saveBackgroundPath(newUri);
+                    callback();
+                };
+                if (oldUri && oldUri !== newUri) {
+                    that.removeFileIfExists(oldUri, applyNewPath);
+                } else {
+                    applyNewPath();
+                }
+            },
+            fail: function() {
+                that.saveBackgroundPath(newUri);
+                callback();
+            }
+        });
+    },
+
+    saveBackgroundPath(uri) {
+        try {
+            storage.set({
+                key: 'bg_path',
+                value: uri
+            });
+        } catch (e) {
+            console.error('save bg_path error: ' + e.message);
+        }
     },
 
     ensureFileInAppDir(fileName, callback) {
@@ -237,7 +396,7 @@ export default {
                 srcUri: srcUri,
                 dstUri: dstUri,
                 success: function() {
-                    that.appendLog('文件已迁移到本地书架');
+                    that.appendLog('文件已迁移到 internal://app');
                     callback(true);
                 },
                 fail: function() {
@@ -246,7 +405,7 @@ export default {
                             srcUri: srcUri,
                             dstUri: dstUri,
                             success: function() {
-                                that.appendLog('文件已复制到本地书架');
+                                that.appendLog('文件已复制到 internal://app');
                                 callback(true);
                             },
                             fail: function() {
@@ -285,6 +444,36 @@ export default {
             return '';
         }
         return fileName.substring(idx);
+    },
+
+    resetBackground() {
+        var that = this;
+        storage.get({
+            key: 'bg_path',
+            success: function(path) {
+                var finish = function() {
+                    try {
+                        storage.set({
+                            key: 'bg_path',
+                            value: ''
+                        });
+                    } catch (e) {
+                        console.error('clear bg_path error: ' + e.message);
+                    }
+                    that.setStatus('已恢复默认背景');
+                    that.appendLog('已恢复默认背景');
+                };
+                if (path) {
+                    that.removeFileIfExists(path, finish);
+                } else {
+                    finish();
+                }
+            },
+            fail: function() {
+                that.setStatus('已恢复默认背景');
+                that.appendLog('已恢复默认背景');
+            }
+        });
     },
 
     onSwipe(e) {
