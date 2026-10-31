@@ -30,3 +30,19 @@
     color: #e5e5e5;
     text-align: center;
 }
+
+.back-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+    color: #ffffff;
+    background-color: rgba(0,0,0,0.4);
+    border-radius: 999px;
+}
+
+.back-area {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 10px;
+    padding-left: 10px;
+}

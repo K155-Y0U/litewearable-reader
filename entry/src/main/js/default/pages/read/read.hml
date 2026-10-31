@@ -12,4 +12,8 @@
             <text class="content">{{ page2 }}</text>
         </div>
     </swiper>
+
+    <div class="back-area">
+        <input type="button" class="back-btn" onclick="goBack" value="‹" />
+    </div>
 </stack>

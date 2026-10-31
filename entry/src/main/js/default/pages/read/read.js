@@ -254,5 +254,11 @@ export default {
             this.loadAhead();
             this.swiperIndex = 1;
         }
+    },
+
+    goBack() {
+        this.saveCurrentProgress();
+        this.stopTimeUpdate();
+        router.replace({ uri: 'pages/index/index' });
     }
 };
