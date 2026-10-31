@@ -1,4 +1,3 @@
 <div class="container" onswipe="handleSwipe">
-    <text class="status-text">{{ statusText }}</text>
-    <text class="content-text">{{ textContent }}</text>
+    <text class="content-text">{{textContent}}</text>
 </div>

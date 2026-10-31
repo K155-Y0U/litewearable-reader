@@ -1,27 +1,16 @@
-/* pages/read/read.css */
+/* pages/read/read.css — 完全恢复 old version 极简版，不再加多余 padding/内边距 */
 .container {
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
-    padding-top: 18px;
     background-color: #000000;
 }
-
-.status-text {
-    width: 340px;
-    height: 24px;
-    font-size: 15px;
-    color: #8a8a8a;
-    text-align: center;
-    margin-bottom: 6px;
-}
-
 .content-text {
     width: 340px;
-    height: 360px;
+    height: 340px;
     font-size: 22px;
     color: #e5e5e5;
-    text-align: left;
+    text-align: center;
 }
