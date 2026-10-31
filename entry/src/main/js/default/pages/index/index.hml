@@ -3,18 +3,16 @@
         <text class="main-title">我的书架</text>
 
         <div class="empty-box" if="{{fileList.length === 0}}">
-            <text class="empty-tip" onclick="goToTransPage">暂无本地小说，点击去跨应用导入</text>
+            <text class="empty-tip" onclick="goToTransPage">暂无本地小说\n点击下方按钮传输 TXT</text>
         </div>
 
         <list class="book-list" else>
-            <list-item class="book-item" onclick="goToTransPage">
-                <text class="nav-entrance">【 切换到跨应用读取 】</text>
-            </list-item>
-
             <list-item class="book-item" for="{{fileList}}" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">
                 <text class="book-name">{{ $item }}</text>
             </list-item>
         </list>
+
+        <input type="button" class="trans-btn" onclick="goToTransPage" value="传输书籍" />
     </div>
 
     <div class="dialog-overlay" if="{{ showDeleteDialog }}">

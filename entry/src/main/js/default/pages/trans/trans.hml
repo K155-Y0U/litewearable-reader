@@ -1,17 +1,19 @@
-<div class="trans-container">
+<div class="trans-container" onswipe="onSwipe">
+    <text class="trans-title">文件传输</text>
 
-    <text class="status-text">{{ tipText }}</text>
-
-    <div class="mock-btn" show="{{ showButtons }}" onclick="goToChangePackage">
-        <text class="btn-text" style="color: #ff4500;">修改/重置目标包名</text>
+    <div class="status-box">
+        <text class="status-text">{{ statusText }}</text>
     </div>
 
-    <div class="mock-btn" show="{{ showButtons }}" onclick="goToFileList">
-        <text class="btn-text" style="color: #32cd32;">查看文件列表</text>
-    </div>
+    <list class="log-list">
+        <list-item class="log-item" for="{{ messageLog }}">
+            <text class="log-text">{{ $item }}</text>
+        </list-item>
+    </list>
 
-    <div class="mock-btn" show="{{ showButtons }}" onclick="onBtn2Click">
-        <text class="btn-text">{{ btn2Text }}</text>
-    </div>
+    <text class="hint-text">请保持本页在前台，手机发送 TXT 后自动保存到书架</text>
 
+    <div class="back-btn-trans" onclick="goBack">
+        <text class="back-btn-trans-text">返回书架</text>
+    </div>
 </div>

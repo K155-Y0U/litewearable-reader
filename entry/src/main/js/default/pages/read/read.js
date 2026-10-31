@@ -1,5 +1,6 @@
 // pages/read/read.js
-// Lite Wearable TXT reader.
+// Lite Wearable local TXT reader.
+// Books are received into internal://app/ by the WearEngine transfer page.
 // The reader keeps only one small window of text in memory and seeks by byte
 // offset for each page. It never accumulates the whole book into a string.
 
@@ -47,7 +48,7 @@ function progressKey(bookName) {
 export default {
     data: {
         bookName: '',
-        textContent: '正在加载中...',
+        textContent: '正在加载中…',
         statusText: '00:00  电量:100%',
         pageNo: 1,
         fileSize: 0
@@ -86,7 +87,7 @@ export default {
         this._batteryLevel = 100;
         this.pageNo = 1;
         this.fileSize = 0;
-        this.textContent = '正在加载中...';
+        this.textContent = '正在加载中…';
 
         this.updateSystemInfo();
         this.startTimeUpdate();
@@ -110,14 +111,7 @@ export default {
     },
 
     bookPath() {
-        if (this.bookName.indexOf('internal://') === 0) {
-            return this.bookName;
-        }
         return 'internal://app/' + this.bookName;
-    },
-
-    isCrossAppBook() {
-        return this.bookName.indexOf('..\\') !== -1;
     },
 
     startTimeUpdate() {
@@ -417,11 +411,7 @@ export default {
         if (e.direction === 'right') {
             this.saveCurrentProgress();
             this.stopTimeUpdate();
-            if (this.isCrossAppBook()) {
-                router.replace({ uri: 'pages/trans/trans' });
-            } else {
-                router.replace({ uri: 'pages/index/index' });
-            }
+            router.replace({ uri: 'pages/index/index' });
         } else if (e.direction === 'down' || e.direction === 'left') {
             this.nextPage();
         } else if (e.direction === 'up') {

@@ -37,7 +37,7 @@
 
 .book-list {
     width: 100%;
-    height: 300px;
+    height: 260px;
 }
 
 .book-item {
@@ -47,16 +47,24 @@
     align-items: center;
 }
 
-.nav-entrance {
-    font-size: 20px;
-    color: #4169e1;
-    text-align: center;
-}
-
 .book-name {
     font-size: 24px;
     color: #e5e5e5;
     text-align: center;
+}
+
+.trans-btn {
+    width: 260px;
+    height: 44px;
+    margin-top: 10px;
+    font-size: 20px;
+    color: #5EA1FF;
+    background-color: #1c1c1e;
+    border-radius: 999px;
+}
+
+.trans-btn:active {
+    background-color: #2a2a2e;
 }
 
 .dialog-overlay {
