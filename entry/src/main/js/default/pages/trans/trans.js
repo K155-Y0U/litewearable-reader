@@ -436,36 +436,6 @@ export default {
         return fileName.substring(idx);
     },
 
-    resetBackground() {
-        var that = this;
-        storage.get({
-            key: 'bg_path',
-            success: function(path) {
-                var finish = function() {
-                    try {
-                        storage.set({
-                            key: 'bg_path',
-                            value: ''
-                        });
-                    } catch (e) {
-                        console.error('clear bg_path error: ' + e.message);
-                    }
-                    that.setStatus('已恢复默认背景');
-                    that.appendLog('已恢复默认背景');
-                };
-                if (path) {
-                    that.removeFileIfExists(path, finish);
-                } else {
-                    finish();
-                }
-            },
-            fail: function() {
-                that.setStatus('已恢复默认背景');
-                that.appendLog('已恢复默认背景');
-            }
-        });
-    },
-
     onSwipe(e) {
         if (e.direction === 'right') {
             this.goBack();

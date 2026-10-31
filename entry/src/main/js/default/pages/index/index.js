@@ -88,6 +88,12 @@ export default {
         });
     },
 
+    goToSetting() {
+        router.replace({
+            uri: 'pages/setting/setting'
+        });
+    },
+
     confirmDeleteBook(index) {
         if (index < 0 || index >= this.fileList.length) {
             return;

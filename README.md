@@ -9,9 +9,21 @@
 - 扫描 `internal://app/` 下的本地 TXT 书籍，点击阅读，长按删除。
 - 分块加载 + 固定字符分页，滑动翻页，断点进度保存。
 - 阅读页内置深色阅读背景，正文显示在背景图上。
+- 设置页可查看当前背景、恢复默认背景、跳转传输页更换背景。
 - WearEngine 文件接收：自动处理 `internal://app/` 与 `internal://cache/`，文件就绪后书架可见。
 - 阅读页顶部显示时间、电量和当前页内容。
 - 传输页显示连接状态和接收日志。
+
+## 工程结构
+
+```text
+entry/src/main/js/default/pages/index/     书架
+entry/src/main/js/default/pages/read/      阅读页
+entry/src/main/js/default/pages/trans/     WearEngine 文件接收
+entry/src/main/js/default/pages/setting/   设置页（阅读背景管理）
+entry/src/main/js/default/pages/wearengine.js  WearEngine-LiteWearable SDK
+entry/src/main/js/default/common/          背景图、.bin 校验、共享资源
+```
 
 ## 构建
 
@@ -54,7 +66,7 @@ peerFingerPrint: 'lite.wearable.reader_...'
 - 手机侧需要申请 Wear Engine 服务权限。
 - 传输时手表必须停留在传输页，离开页面会注销接收器。
 - 低版本固件可能先把文件写入 `internal://cache/`，接收页会尝试 `move`，失败后 `copy` 到 `internal://app/`。
-- 只处理 `.txt` 文件；其他类型会显示忽略日志。
+- `.txt` 保存到书架；有效的 Lite `.bin` 保存为阅读背景；其他类型会显示忽略日志。
 
 ## 阅读器说明
 
@@ -101,7 +113,8 @@ Lite Wearable 的 `internal://app/` 图片只能使用构建链生成的 `.bin` 
 - 文件固定保存为 `internal://app/custom_bg.bin`，路径写入 storage 的 `bg_path`。
 - 传输时会校验 `.bin` 头、尺寸和文件长度；无效文件会被拒绝并删除临时文件。
 - 阅读页打开时读取 `bg_path`，再次校验后绑定到 `<image src="{{backgroundImage}}">`；失败回退内置背景。
-- 传输页提供“恢复默认背景”按钮，会删除自定义文件并清空 `bg_path`。
+- 设置页显示当前背景和预览，可恢复默认背景；恢复时会删除自定义文件并清空 `bg_path`。
+- 传输页只负责接收，不再放背景重置按钮。
 
 注意：`internal://app/*.bin` 图片渲染和图片池占用必须真机验证。README 中的内置背景 `/common/read_bg.png` 会在构建时自动转换为 `read_bg.bin`，和应用内固定资源不是同一条路径。
 

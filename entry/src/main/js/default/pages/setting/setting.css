@@ -1,0 +1,80 @@
+.setting-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding-top: 14px;
+    background-color: #000000;
+}
+
+.setting-title {
+    width: 100%;
+    height: 38px;
+    font-size: 26px;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.bg-preview {
+    width: 110px;
+    height: 110px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background-color: #111111;
+}
+
+.section-label {
+    width: 300px;
+    height: 22px;
+    font-size: 15px;
+    color: #8a8a8a;
+    text-align: center;
+}
+
+.section-value {
+    width: 300px;
+    height: 28px;
+    font-size: 22px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.section-hint {
+    width: 300px;
+    height: 22px;
+    font-size: 14px;
+    color: #6f6f6f;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.setting-btn {
+    width: 260px;
+    height: 40px;
+    margin-top: 6px;
+    font-size: 18px;
+    color: #5EA1FF;
+    background-color: #1c1c1e;
+    border-radius: 999px;
+}
+
+.status-text {
+    width: 300px;
+    height: 22px;
+    margin-top: 6px;
+    font-size: 15px;
+    color: #32cd32;
+    text-align: center;
+}
+
+.back-btn {
+    width: 180px;
+    height: 38px;
+    margin-top: 8px;
+    font-size: 18px;
+    color: #5EA1FF;
+    background-color: #1c1c1e;
+    border-radius: 999px;
+}

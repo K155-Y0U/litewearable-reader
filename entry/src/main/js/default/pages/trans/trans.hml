@@ -16,6 +16,4 @@
     <div class="back-btn-trans" onclick="goBack">
         <text class="back-btn-trans-text">返回书架</text>
     </div>
-
-    <input type="button" class="reset-bg-btn" onclick="resetBackground" value="恢复默认背景" />
 </div>

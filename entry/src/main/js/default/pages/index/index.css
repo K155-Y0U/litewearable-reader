@@ -67,6 +67,20 @@
     background-color: #2a2a2e;
 }
 
+.setting-btn {
+    width: 260px;
+    height: 38px;
+    margin-top: 6px;
+    font-size: 18px;
+    color: #a0a0a0;
+    background-color: #1c1c1e;
+    border-radius: 999px;
+}
+
+.setting-btn:active {
+    background-color: #2a2a2e;
+}
+
 .dialog-overlay {
     width: 100%;
     height: 100%;

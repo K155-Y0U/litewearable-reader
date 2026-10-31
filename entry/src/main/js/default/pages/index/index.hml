@@ -13,6 +13,7 @@
         </list>
 
         <input type="button" class="trans-btn" onclick="goToTransPage" value="传输书籍" />
+        <input type="button" class="setting-btn" onclick="goToSetting" value="设置" />
     </div>
 
     <div class="dialog-overlay" if="{{ showDeleteDialog }}">

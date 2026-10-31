@@ -1,0 +1,16 @@
+<div class="setting-container">
+    <text class="setting-title">设置</text>
+
+    <image class="bg-preview" src="{{ previewImage }}" />
+
+    <text class="section-label">阅读背景</text>
+    <text class="section-value">{{ backgroundText }}</text>
+    <text class="section-hint">{{ backgroundHint }}</text>
+
+    <input type="button" class="setting-btn" onclick="goToTrans" value="去传输页更换背景" />
+    <input type="button" class="setting-btn" style="color: #ff6b60;" onclick="resetBackground" value="恢复默认背景" />
+
+    <text class="status-text" if="{{ statusText }}">{{ statusText }}</text>
+
+    <input type="button" class="back-btn" onclick="goBack" value="返回书架" />
+</div>
