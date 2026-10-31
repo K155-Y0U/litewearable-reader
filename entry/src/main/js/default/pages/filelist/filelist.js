@@ -1,6 +1,8 @@
 import file from '@system.file';
 import router from '@system.router';
 
+var COPY_BLOCK_SIZE = 4096;
+
 export default {
     data: {
         targetPackage: '',
@@ -8,8 +10,10 @@ export default {
         rawNames: [],
         countText: '正在加载...',
         txtCount: 0,
-        isLoading: true
+        isLoading: true,
+        copying: false
     },
+
     onInit() {
         if (!this.targetPackage || this.targetPackage === '') {
             this.countText = '未传入目标包名';
@@ -18,6 +22,7 @@ export default {
         }
         this.scanTargetDir();
     },
+
     scanTargetDir() {
         var that = this;
         var crossAppDir = 'internal://app/..\\' + this.targetPackage;
@@ -45,6 +50,7 @@ export default {
             }
         });
     },
+
     loadFromListJson(crossAppDir) {
         var that = this;
         var listPath = crossAppDir + '\\list.json';
@@ -70,6 +76,7 @@ export default {
             }
         });
     },
+
     parseFileNames(sourceList) {
         var list = [];
         var rawList = [];
@@ -105,8 +112,9 @@ export default {
         }
         return { list: list, rawList: rawList, total: list.length, txtCount: txtCount };
     },
+
     openFile(index) {
-        if (index < 0 || index >= this.rawNames.length) {
+        if (this.copying || index < 0 || index >= this.rawNames.length) {
             return;
         }
         var fileName = this.rawNames[index];
@@ -122,7 +130,11 @@ export default {
             }
         });
     },
+
     goBack() {
+        if (this.copying) {
+            return;
+        }
         router.replace({
             uri: 'pages/trans/trans',
             params: {
@@ -130,13 +142,90 @@ export default {
             }
         });
     },
+
+    collectTxtNames() {
+        var names = [];
+        for (var i = 0; i < this.rawNames.length; i++) {
+            var name = this.rawNames[i];
+            if (!name || name.length <= 4) {
+                continue;
+            }
+            var dotIdx = name.toLowerCase().indexOf('.txt');
+            if (dotIdx !== -1 && dotIdx === name.length - 4) {
+                names.push(name);
+            }
+        }
+        return names;
+    },
+
     copyAll() {
-        router.replace({
-            uri: 'pages/trans/trans',
-            params: {
-                from: 'index',
-                inputWords: this.targetPackage
+        if (this.copying) {
+            return;
+        }
+        var names = this.collectTxtNames();
+        if (names.length === 0) {
+            this.countText = '没有可复制的 txt 文件';
+            return;
+        }
+        this.copying = true;
+        this.countText = '准备复制 ' + names.length + ' 个 txt 文件...';
+        this.copyOne(names, 0, 0);
+    },
+
+    copyOne(names, index, successCount) {
+        var that = this;
+        if (index >= names.length) {
+            this.copying = false;
+            this.countText = '复制完成：成功 ' + successCount + ' / ' + names.length + ' 个';
+            return;
+        }
+
+        var fileName = names[index];
+        var srcUri = 'internal://app/..\\' + this.targetPackage + '\\' + fileName;
+        var dstUri = 'internal://app/' + fileName;
+        this.countText = '正在复制 (' + (index + 1) + '/' + names.length + '): ' + fileName;
+
+        file.copy({
+            srcUri: srcUri,
+            dstUri: dstUri,
+            success: function() {
+                that.copyOne(names, index + 1, successCount + 1);
+            },
+            fail: function() {
+                that.copyByChunk(srcUri, dstUri, 0, function(ok) {
+                    that.copyOne(names, index + 1, successCount + (ok ? 1 : 0));
+                });
+            }
+        });
+    },
+
+    copyByChunk(srcUri, dstUri, position, callback) {
+        var that = this;
+        file.readText({
+            uri: srcUri,
+            position: position,
+            length: COPY_BLOCK_SIZE,
+            success: function(data) {
+                var text = (data && data.text) ? data.text : '';
+                if (text.length === 0) {
+                    callback(position === 0 ? false : true);
+                    return;
+                }
+                file.writeText({
+                    uri: dstUri,
+                    text: text,
+                    append: position > 0,
+                    success: function() {
+                        that.copyByChunk(srcUri, dstUri, position + COPY_BLOCK_SIZE, callback);
+                    },
+                    fail: function() {
+                        callback(false);
+                    }
+                });
+            },
+            fail: function() {
+                callback(false);
             }
         });
     }
-}
+};

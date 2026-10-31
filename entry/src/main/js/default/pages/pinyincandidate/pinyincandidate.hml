@@ -1,22 +1,22 @@
-<div class="container">
+<div class="container" onswipe="touchMove">
     <div class="container-col">
         <text style="font-size : 30px;">{{ letters }}</text>
         <div class="container-row-candidate">
             <input type="button" value="{{ words[wordsPageIndex] }}" class="candidate-word-button"
-                   onclick="selectInput({{ words[wordsPageIndex] }})"></input>
+                   onclick="selectInput({{ words[wordsPageIndex] }})" />
             <input type="button" value="{{ words[wordsPageIndex + 1] }}" class="candidate-word-button"
-                   onclick="selectInput({{ words[wordsPageIndex + 1] }})"></input>
+                   onclick="selectInput({{ words[wordsPageIndex + 1] }})" />
             <input type="button" value="{{ words[wordsPageIndex + 2] }}" class="candidate-word-button"
-                   onclick="selectInput({{ words[wordsPageIndex + 2] }})"></input>
+                   onclick="selectInput({{ words[wordsPageIndex + 2] }})" />
             <input type="button" value="{{ words[wordsPageIndex + 3] }}" class="candidate-word-button"
-                   onclick="selectInput({{ words[wordsPageIndex + 3] }})"></input>
+                   onclick="selectInput({{ words[wordsPageIndex + 3] }})" />
             <input type="button" value="{{ words[wordsPageIndex + 4] }}" class="candidate-word-button"
-                   onclick="selectInput({{ words[wordsPageIndex + 4] }})"></input>
+                   onclick="selectInput({{ words[wordsPageIndex + 4] }})" />
         </div>
         <div class="container-row-candidate">
-            <input type="button" value="返回" class="func-button" onclick="backToPinyin"></input>
-            <input type="button" value="<" class="candidate-word-button" onclick="wordsPageBack"></input>
-            <input type="button" value=">" class="candidate-word-button" onclick="wordsPageForward"></input>
+            <input type="button" value="返回" class="func-button" onclick="backToPinyin" />
+            <input type="button" value="<" class="candidate-word-button" onclick="wordsPageBack" />
+            <input type="button" value=">" class="candidate-word-button" onclick="wordsPageForward" />
         </div>
     </div>
 </div>

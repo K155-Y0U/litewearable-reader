@@ -1,16 +1,24 @@
 import file from '@system.file';
 import router from '@system.router';
 
+var MAX_BOOKS = 80;
+
 export default {
     data: {
-        fileList: []
+        fileList: [],
+        showDeleteDialog: false,
+        deleteTargetIndex: -1,
+        deleteTargetName: '',
+        deleteError: '',
+        deleting: false
     },
-    onInit() {
+
+    onShow() {
         this.scanLocalFiles();
     },
+
     scanLocalFiles() {
         var that = this;
-        console.info('开始扫描');
         try {
             file.list({
                 uri: 'internal://app',
@@ -23,8 +31,11 @@ export default {
                     }
                     var txtFiles = [];
                     for (var i = 0; i < sourceList.length; i++) {
+                        if (txtFiles.length >= MAX_BOOKS) {
+                            break;
+                        }
                         var item = sourceList[i];
-                        var fileName = "";
+                        var fileName = '';
                         if (typeof item === 'string') {
                             fileName = item;
                         } else if (item && typeof item === 'object') {
@@ -35,17 +46,12 @@ export default {
                                 var lastSlash = fullPath.lastIndexOf('/');
                                 var lastBackSlash = fullPath.lastIndexOf('\\');
                                 var maxIdx = lastSlash > lastBackSlash ? lastSlash : lastBackSlash;
-                                if (maxIdx !== -1) {
-                                    fileName = fullPath.substring(maxIdx + 1);
-                                } else {
-                                    fileName = fullPath;
-                                }
+                                fileName = maxIdx !== -1 ? fullPath.substring(maxIdx + 1) : fullPath;
                             }
                         }
                         if (fileName && fileName.length > 4) {
                             var idx = fileName.toLowerCase().indexOf('.txt');
-                            if (idx !== -1 && idx === (fileName.length - 4)) {
-                                console.info('【成功】 ' + fileName);
+                            if (idx !== -1 && idx === fileName.length - 4) {
                                 txtFiles.push(fileName);
                             }
                         }
@@ -53,25 +59,26 @@ export default {
                     that.fileList = txtFiles;
                 },
                 fail: function(err, code) {
-                    console.error('扫描失败' + code);
+                    console.error('扫描失败: ' + code);
                 }
             });
         } catch (e) {
-            console.error('运行时异常: ' + e.message);
+            console.error('扫描异常: ' + e.message);
         }
     },
+
     openBook(index) {
-        if (index < 0 || index >= this.fileList.length) {
+        if (this.showDeleteDialog || index < 0 || index >= this.fileList.length) {
             return;
         }
-        var targetFileName = this.fileList[index];
         router.replace({
             uri: 'pages/read/read',
             params: {
-                bookName: targetFileName
+                bookName: this.fileList[index]
             }
         });
     },
+
     goToTransPage() {
         router.replace({
             uri: 'pages/trans/trans',
@@ -79,5 +86,58 @@ export default {
                 from: 'index'
             }
         });
+    },
+
+    confirmDeleteBook(index) {
+        if (index < 0 || index >= this.fileList.length) {
+            return;
+        }
+        this.deleteTargetIndex = index;
+        this.deleteTargetName = this.fileList[index];
+        this.deleteError = '';
+        this.deleting = false;
+        this.showDeleteDialog = true;
+    },
+
+    cancelDeleteBook() {
+        if (this.deleting) {
+            return;
+        }
+        this.closeDeleteDialog();
+    },
+
+    closeDeleteDialog() {
+        this.showDeleteDialog = false;
+        this.deleteTargetIndex = -1;
+        this.deleteTargetName = '';
+        this.deleteError = '';
+        this.deleting = false;
+    },
+
+    doDeleteBook() {
+        if (this.deleting || !this.deleteTargetName) {
+            return;
+        }
+        var that = this;
+        var target = this.deleteTargetName;
+        this.deleting = true;
+        this.deleteError = '';
+
+        try {
+            file.delete({
+                uri: 'internal://app/' + target,
+                success: function() {
+                    that.closeDeleteDialog();
+                    that.scanLocalFiles();
+                },
+                fail: function(err, code) {
+                    that.deleting = false;
+                    that.deleteError = '删除失败 (' + code + ')';
+                }
+            });
+        } catch (e) {
+            this.deleting = false;
+            this.deleteError = '删除异常: ' + e.message;
+        }
     }
-}
+};

@@ -21,12 +21,12 @@ export default {
         var that = this;
         that.keyboardLetters = "1234567890,.;:\"'!@#$%&*()";
         that.mode = "sy";
-        that.letters = "无候选"
+        that.letters = "";
         that.words = that.inputWords.substring(that.inputWords.length - 8)
     },
     changeToEn() {
         var that = this;
-        that.letters = "无候选"
+        that.letters = "";
         if (that.caps == 1) {
             that.keyboardLetters = "qwertyuiopasdfghjklzxcvbnm";
         } else {
@@ -43,12 +43,14 @@ export default {
         that.letters = ""
         that.words = that.inputWords.substring(that.inputWords.length - 8)
     },
-    input(symbol) {
+    input(index) {
         var that = this;
-        console.log(symbol);
+        var symbol = this.keyboardLetters.charAt(index);
+        if (!symbol) {
+            return;
+        }
         if (this.mode == "cn") {
             that.letters += symbol;
-            console.log(that.letters);
         } else {
             that.inputWords += symbol;
         }
@@ -86,7 +88,9 @@ export default {
         }
     },
     jumpToCandidate() {
-        console.log(this.letters);
+        if (!this.letters) {
+            return;
+        }
         var that = this;
         router.replace({
             uri: 'pages/pinyincandidate/pinyincandidate',
@@ -101,7 +105,7 @@ export default {
     finishInput(){
         var that = this;
         router.replace({
-            uri: that.fromPage,
+            uri: that.fromPage || 'pages/index/index',
             params: {
                 fromPageData:that.fromPageData,
                 inputWords:that.inputWords,
@@ -111,7 +115,7 @@ export default {
     cancelInput(){
         var that = this;
         router.replace({
-            uri: that.fromPage,
+            uri: that.fromPage || 'pages/index/index',
             params: {
                 fromPageData:that.fromPageData,
             },
@@ -119,7 +123,7 @@ export default {
     },
     touchMove(e) { // swipe处理事件
         if (e.direction == "right") { // 右滑退出
-            this.cancel_input()
+            this.cancelInput()
         }
     }
 }

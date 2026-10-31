@@ -1,18 +1,31 @@
-<div class="container">
+<stack class="page-stack">
+    <div class="container">
+        <text class="main-title">我的书架</text>
 
-    <text class="main-title">我的书架</text>
+        <div class="empty-box" if="{{fileList.length === 0}}">
+            <text class="empty-tip" onclick="goToTransPage">暂无本地小说，点击去跨应用导入</text>
+        </div>
 
-    <div class="empty-box" if="{{fileList.length === 0}}">
-        <text class="empty-tip" onclick="goToTransPage">暂无本地小说，点击去跨应用导入</text>
+        <list class="book-list" else>
+            <list-item class="book-item" onclick="goToTransPage">
+                <text class="nav-entrance">【 切换到跨应用读取 】</text>
+            </list-item>
+
+            <list-item class="book-item" for="{{fileList}}" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">
+                <text class="book-name">{{ $item }}</text>
+            </list-item>
+        </list>
     </div>
 
-    <list class="book-list" else>
-        <list-item class="book-item" onclick="goToTransPage">
-            <text class="nav-entrance">【 切换到跨应用读取 】</text>
-        </list-item>
-
-        <list-item class="book-item" for="{{fileList}}" onclick="openBook($idx)">
-            <text class="book-name">{{$item}}</text>
-        </list-item>
-    </list>
-</div>
+    <div class="dialog-overlay" if="{{ showDeleteDialog }}">
+        <div class="dialog-box">
+            <text class="dialog-title">删除书籍？</text>
+            <text class="dialog-message">{{ deleteTargetName }}</text>
+            <text class="dialog-error" if="{{ deleteError }}">{{ deleteError }}</text>
+            <div class="dialog-ops">
+                <input type="button" class="dialog-btn-cancel" onclick="cancelDeleteBook" value="取消" />
+                <input type="button" class="dialog-btn-ok" onclick="doDeleteBook" value="删除" />
+            </div>
+        </div>
+    </div>
+</stack>
