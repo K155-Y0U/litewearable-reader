@@ -239,26 +239,23 @@ export default {
         var newIndex = e.index;
 
         if (newIndex === 2) {
-            // 向前翻页
+            // 向前翻页：当前页下移一位，预取下一页
             this.currentIndex += this.pageSize;
             this.saveCurrentProgress();
-            // 预取下一页
+            var oldPage1 = this.page1;
+            var oldPage2 = this.page2;
             this.loadAhead();
-            // 将 page1/page2 提升为前两个 slot，然后重新渲染
-            this.page0 = this.page1;
-            this.page1 = this.page2;
-            this.page2 = '';
-            // 强制 swiper 跳回中间页
-            this.swiperIndex = 1;
+            // 重新计算，不依赖旧缓存
+            this.page0 = this.getPageAt(this.currentIndex - this.pageSize);
+            this.page1 = this.getPageAt(this.currentIndex);
+            this.page2 = this.getPageAt(this.currentIndex + this.pageSize);
         } else if (newIndex === 0) {
             // 向后翻页
             this.currentIndex = Math.max(0, this.currentIndex - this.pageSize);
             this.saveCurrentProgress();
-            // 重新计算三页（不依赖旧数据，避免错位）
             this.page0 = this.getPageAt(this.currentIndex - this.pageSize);
             this.page1 = this.getPageAt(this.currentIndex);
             this.page2 = this.getPageAt(this.currentIndex + this.pageSize);
-            this.swiperIndex = 1;
         }
     },
 

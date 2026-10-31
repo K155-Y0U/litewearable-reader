@@ -3,7 +3,6 @@
 
     <swiper
         class="swiper"
-        :index="swiperIndex"
         loop="true"
         duration="200"
         vertical="true"
