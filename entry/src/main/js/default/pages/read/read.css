@@ -1,34 +1,44 @@
 /* pages/read/read.css */
 .read-root {
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
     width: 100%;
     height: 100%;
     background-color: #000000;
 }
 
-.top-bar {
+.read-bg {
+    width: 100%;
+    height: 100%;
+}
+
+.read-column {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    padding-top: 20px;
+}
+
+.header {
+    width: 100%;
+    height: 30px;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 34px;
-    padding-left: 10px;
-    padding-right: 14px;
+    justify-content: center;
 }
 
 .back-btn {
-    width: 34px;
-    height: 34px;
-    font-size: 24px;
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+    font-size: 22px;
     color: #ffffff;
     background-color: #1c1c1e;
     border-radius: 999px;
 }
 
 .status-text {
-    font-size: 14px;
+    font-size: 13px;
     color: #8a8a8a;
 }
 
@@ -40,23 +50,13 @@
 .page {
     width: 360px;
     height: 360px;
-}
-
-.page-stack {
-    width: 360px;
-    height: 360px;
     justify-content: center;
     align-items: center;
 }
 
-.page-bg {
-    width: 360px;
-    height: 360px;
-}
-
 .content {
-    width: 340px;
-    height: 350px;
+    width: 310px;
+    height: 340px;
     font-size: 22px;
     color: #e5e5e5;
     text-align: center;

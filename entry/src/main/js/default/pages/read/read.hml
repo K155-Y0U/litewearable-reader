@@ -1,32 +1,27 @@
-<div class="read-root">
-    <div class="top-bar">
-        <input type="button" class="back-btn" onclick="goBack" value="‹" />
-        <text class="status-text">{{ statusText }}</text>
-    </div>
+<stack class="read-root">
+    <image class="read-bg" src="{{ backgroundImage }}" />
 
-    <swiper
-        class="swiper"
-        loop="true"
-        duration="200"
-        vertical="true"
-        onchange="onSwiperChange">
-        <div class="page">
-            <stack class="page-stack">
-                <image class="page-bg" src="{{ backgroundImage }}" />
+    <div class="read-column">
+        <div class="header">
+            <input type="button" class="back-btn" onclick="goBack" value="‹" />
+            <text class="status-text">{{ statusText }}</text>
+        </div>
+
+        <swiper
+            class="swiper"
+            loop="true"
+            duration="200"
+            vertical="true"
+            onchange="onSwiperChange">
+            <div class="page">
                 <text class="content">{{ page0 }}</text>
-            </stack>
-        </div>
-        <div class="page">
-            <stack class="page-stack">
-                <image class="page-bg" src="{{ backgroundImage }}" />
+            </div>
+            <div class="page">
                 <text class="content">{{ page1 }}</text>
-            </stack>
-        </div>
-        <div class="page">
-            <stack class="page-stack">
-                <image class="page-bg" src="{{ backgroundImage }}" />
+            </div>
+            <div class="page">
                 <text class="content">{{ page2 }}</text>
-            </stack>
-        </div>
-    </swiper>
-</div>
+            </div>
+        </swiper>
+    </div>
+</stack>

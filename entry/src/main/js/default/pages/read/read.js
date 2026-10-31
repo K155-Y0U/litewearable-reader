@@ -28,7 +28,7 @@ export default {
         page2: '',
         currentIndex: 0,
         visibleIndex: 0,
-        pageSize: 140,
+        pageSize: 150,
         filePosition: 0,
         readBlockSize: 1000,
         isEndOfFile: false,
