@@ -18,7 +18,7 @@ import { validateLiteBin } from '../../common/litebin.js';
 export default {
     data: {
         statusText: '等待连接…',
-        messageLog: [],
+        messageLog: ['等待手机发送文件…'],
         client: null,
         peerPkgName: 'lite.wearable.reader',
         peerFingerPrint: 'lite.wearable.reader_MDRlZDYxYTA2NDNjNjYwYTBjYzMyN2E3MzEwODgyYjYyYjgxZThmZjYyMTRjYTI0NGY2ZDIzZjRhZmMxODVmZGVjMTFjMGM4MGMxMmNjZGE3NDhmNmUxMTlhMTM4MzM3MTJmZmEyYzhlMDYwZDIwY2MwMWUzNGRjNDljODVmNjY2MA=='
@@ -31,6 +31,7 @@ export default {
 
     onShow() {
         this._active = true;
+        this.appendLog('进入传输页');
         this.initWearEngine();
     },
 
@@ -57,7 +58,7 @@ export default {
             var p2p = new P2pClient();
             this.client = p2p;
             p2p.whenReady(function() {
-                if (!that._active) {
+                if (!that._active || that.client !== p2p) {
                     return;
                 }
                 p2p.setPeerPkgName(that.peerPkgName);
@@ -88,6 +89,13 @@ export default {
             this.setStatus('初始化失败');
             this.appendLog('WearEngine异常: ' + e.message);
         }
+    },
+
+    retryConnection() {
+        this.destroyWearEngine();
+        this.setStatus('正在重新连接…');
+        this.appendLog('手动重新连接');
+        this.initWearEngine();
     },
 
     destroyWearEngine() {

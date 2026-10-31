@@ -5,13 +5,20 @@
         <text class="status-text">{{ statusText }}</text>
     </div>
 
-    <list class="log-list">
+    <text class="peer-text">手机包名: {{ peerPkgName }}</text>
+
+    <text class="guide-text">1. 手机打开配套 App\n2. 发送 TXT 或 Lite bin 背景\n3. 保持本页在前台</text>
+
+    <input type="button" class="retry-btn" onclick="retryConnection" value="重新连接" />
+
+    <text class="log-title">传输日志</text>
+
+    <list class="log-list" if="{{ messageLog.length > 0 }}">
         <list-item class="log-item" for="{{ messageLog }}">
             <text class="log-text">{{ $item }}</text>
         </list-item>
     </list>
-
-    <text class="hint-text">保持本页在前台：发送 TXT 保存到书架，发送 Lite .bin 更新阅读背景（≤512×512）</text>
+    <text class="empty-log" else>暂无传输记录</text>
 
     <div class="back-btn-trans" onclick="goBack">
         <text class="back-btn-trans-text">返回书架</text>
