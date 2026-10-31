@@ -1,7 +1,15 @@
 <stack class="read-stack">
     <image class="read-bg" src="{{ backgroundImage }}" />
 
-    <div class="container" onswipe="handleSwipe">
-        <text class="content-text">{{ textContent }}</text>
-    </div>
+    <swiper class="swiper" loop="true" duration="200" vertical="true" onchange="onSwiperChange">
+        <div class="page page-0">
+            <text class="content">{{ page0 }}</text>
+        </div>
+        <div class="page page-1">
+            <text class="content">{{ page1 }}</text>
+        </div>
+        <div class="page page-2">
+            <text class="content">{{ page2 }}</text>
+        </div>
+    </swiper>
 </stack>
