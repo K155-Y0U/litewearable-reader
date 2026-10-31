@@ -1,0 +1,15 @@
+// Copy this file to signing.gradle (ignored by Git) and fill in your own
+// Lite Wearable signing material.
+ohos {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\path\\to\\your.p12')
+            storePassword '<encrypted-or-plain-password>'
+            keyAlias = '<key-alias>'
+            keyPassword '<encrypted-or-plain-password>'
+            signAlg = 'SHA256withECDSA'
+            profile file('C:\\path\\to\\yourDebug.p7b')
+            certpath file('C:\\path\\to\\your.cer')
+        }
+    }
+}

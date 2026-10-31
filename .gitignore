@@ -1,0 +1,20 @@
+# Build and IDE output
+.gradle/
+build/
+entry/build/
+entry/.preview/
+.idea/
+*.iml
+
+# Local machine configuration
+local.properties
+signing.gradle
+
+# Crash dumps and logs
+*.log
+hs_err_pid*.log
+replay_pid*.log
+
+# Dependencies
+node_modules/
+oh_modules/
