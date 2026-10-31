@@ -20,8 +20,8 @@
 }
 
 .header {
-    width: 200px;
-    height: 34px;
+    width: 180px;
+    height: 36px;
     margin-top: 6px;
     flex-direction: row;
     align-items: center;
@@ -42,8 +42,8 @@
 
 .status-text {
     width: 140px;
-    height: 24px;
-    font-size: 15px;
+    height: 30px;
+    font-size: 22px;
     color: #ffffff;
     text-align: left;
 }

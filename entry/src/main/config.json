@@ -3,8 +3,8 @@
     "vendor": "example",
     "bundleName": "lite.weilan.reader",
     "version": {
-      "code": 1000608,
-      "name": "1.6.8"
+      "code": 1000700,
+      "name": "1.7.0"
     }
   },
   "deviceConfig": {},
