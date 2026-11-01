@@ -11,12 +11,12 @@
             <text class="empty-tip" onclick="goToTransPage">暂无本地小说\n请到传输页发送 TXT</text>
         </div>
 
-        <text class="book-btn" if="{{ book0 }}" onclick="openBook(0)" onlongpress="confirmDeleteBook(0)">{{ book0 }}</text>
-        <text class="book-btn" if="{{ book1 }}" onclick="openBook(1)" onlongpress="confirmDeleteBook(1)">{{ book1 }}</text>
-        <text class="book-btn" if="{{ book2 }}" onclick="openBook(2)" onlongpress="confirmDeleteBook(2)">{{ book2 }}</text>
-        <text class="book-btn" if="{{ book3 }}" onclick="openBook(3)" onlongpress="confirmDeleteBook(3)">{{ book3 }}</text>
-        <text class="book-btn" if="{{ book4 }}" onclick="openBook(4)" onlongpress="confirmDeleteBook(4)">{{ book4 }}</text>
-        <text class="book-btn" if="{{ book5 }}" onclick="openBook(5)" onlongpress="confirmDeleteBook(5)">{{ book5 }}</text>
+        <text class="book-btn" if="{{ book0 !== '' }}" onclick="openBook(0)" onlongpress="confirmDeleteBook(0)">{{ book0 }}</text>
+        <text class="book-btn" if="{{ book1 !== '' }}" onclick="openBook(1)" onlongpress="confirmDeleteBook(1)">{{ book1 }}</text>
+        <text class="book-btn" if="{{ book2 !== '' }}" onclick="openBook(2)" onlongpress="confirmDeleteBook(2)">{{ book2 }}</text>
+        <text class="book-btn" if="{{ book3 !== '' }}" onclick="openBook(3)" onlongpress="confirmDeleteBook(3)">{{ book3 }}</text>
+        <text class="book-btn" if="{{ book4 !== '' }}" onclick="openBook(4)" onlongpress="confirmDeleteBook(4)">{{ book4 }}</text>
+        <text class="book-btn" if="{{ book5 !== '' }}" onclick="openBook(5)" onlongpress="confirmDeleteBook(5)">{{ book5 }}</text>
     </div>
 
     <div class="dialog-overlay" if="{{ showDeleteDialog }}">
