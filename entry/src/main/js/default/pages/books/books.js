@@ -6,6 +6,12 @@ var MAX_BOOKS = 80;
 export default {
     data: {
         fileList: [],
+        book0: '',
+        book1: '',
+        book2: '',
+        book3: '',
+        book4: '',
+        book5: '',
         showDeleteDialog: false,
         deleteTargetIndex: -1,
         deleteTargetName: '',
@@ -57,6 +63,12 @@ export default {
                         }
                     }
                     that.fileList = txtFiles;
+                    that.book0 = txtFiles[0] || '';
+                    that.book1 = txtFiles[1] || '';
+                    that.book2 = txtFiles[2] || '';
+                    that.book3 = txtFiles[3] || '';
+                    that.book4 = txtFiles[4] || '';
+                    that.book5 = txtFiles[5] || '';
                 },
                 fail: function(err, code) {
                     console.error('扫描失败: ' + code);
