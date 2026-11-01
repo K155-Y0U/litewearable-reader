@@ -11,7 +11,12 @@
 
         <list class="book-list" else>
             <list-item class="book-item" for="{{ fileList }}">
-                <text class="book-btn" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">{{ $item }}</text>
+                <div class="book-wrap" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">
+                    <stack class="book-stack">
+                        <div class="book-bg"></div>
+                        <text class="book-name">{{ $item }}</text>
+                    </stack>
+                </div>
             </list-item>
         </list>
     </div>

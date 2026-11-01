@@ -65,15 +65,29 @@
     align-items: center;
 }
 
-.book-btn {
+.book-wrap {
+    width: 300px;
+    height: 42px;
+}
+
+.book-stack {
+    width: 300px;
+    height: 42px;
+}
+
+.book-bg {
     width: 300px;
     height: 42px;
     background-color: #1c1c1e;
     border-radius: 999px;
+}
+
+.book-name {
+    width: 300px;
+    height: 42px;
     font-size: 19px;
     color: #e5e5e5;
     text-align: center;
-    padding-top: 10px;
 }
 
 .dialog-overlay {
