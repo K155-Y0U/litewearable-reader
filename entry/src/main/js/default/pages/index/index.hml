@@ -2,63 +2,15 @@
     <div class="container">
         <text class="app-title">阅读</text>
 
-        <div class="last-wrap" onclick="openLastBook">
-            <stack class="last-stack">
-                <div class="last-bg"></div>
-                <div class="last-content">
-                    <stack class="last-icon-stack">
-                        <div class="last-icon-bg"></div>
-                        <text class="last-icon">书</text>
-                    </stack>
-                    <div class="last-info">
-                        <text class="last-title">上次阅读</text>
-                        <text class="last-sub">{{ lastReadLabel }}</text>
-                    </div>
-                </div>
-            </stack>
-        </div>
+        <text class="last-card" onclick="openLastBook">{{ lastReadLabel }}</text>
 
         <text class="section-label">快捷操作</text>
 
-        <div class="quick-row">
-            <div class="quick-wrap" onclick="goToBooks">
-                <stack class="quick-stack">
-                    <div class="quick-bg"></div>
-                    <div class="quick-content">
-                        <stack class="quick-icon-stack">
-                            <div class="quick-icon-bg"></div>
-                            <text class="quick-icon">书</text>
-                        </stack>
-                        <text class="quick-label">书籍</text>
-                    </div>
-                </stack>
-            </div>
-
-            <div class="quick-wrap" onclick="goToSetting">
-                <stack class="quick-stack">
-                    <div class="quick-bg"></div>
-                    <div class="quick-content">
-                        <stack class="quick-icon-stack">
-                            <div class="quick-icon-bg"></div>
-                            <text class="quick-icon">设</text>
-                        </stack>
-                        <text class="quick-label">设置</text>
-                    </div>
-                </stack>
-            </div>
-
-            <div class="quick-wrap" onclick="goToTransPage">
-                <stack class="quick-stack">
-                    <div class="quick-bg"></div>
-                    <div class="quick-content">
-                        <stack class="quick-icon-stack">
-                            <div class="quick-icon-bg"></div>
-                            <text class="quick-icon">传</text>
-                        </stack>
-                        <text class="quick-label">传输</text>
-                    </div>
-                </stack>
-            </div>
+        <div class="action-row">
+            <input type="button" class="action-btn half" onclick="goToBooks" value="书  书籍" />
+            <input type="button" class="action-btn half" onclick="goToSetting" value="设  设置" />
         </div>
+
+        <input type="button" class="action-btn wide" onclick="goToTransPage" value="传  传输书籍" />
     </div>
 </stack>

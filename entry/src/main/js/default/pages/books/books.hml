@@ -9,16 +9,11 @@
             <text class="empty-tip" onclick="goToTransPage">暂无本地小说\n请到传输页发送 TXT</text>
         </div>
 
-        <list class="book-list" else>
-            <list-item class="book-item" for="{{ fileList }}">
-                <div class="book-wrap" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">
-                    <stack class="book-stack">
-                        <div class="book-bg"></div>
-                        <text class="book-name">{{ $item }}</text>
-                    </stack>
-                </div>
-            </list-item>
-        </list>
+        <div class="book-list" else>
+            <div class="book-row" for="{{ fileList }}">
+                <text class="book-btn" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">{{ $item }}</text>
+            </div>
+        </div>
     </div>
 
     <div class="dialog-overlay" if="{{ showDeleteDialog }}">

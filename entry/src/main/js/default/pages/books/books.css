@@ -55,39 +55,25 @@
 .book-list {
     width: 320px;
     height: 340px;
-}
-
-.book-item {
-    width: 300px;
-    height: 42px;
-    margin-bottom: 6px;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
-.book-wrap {
+.book-row {
     width: 300px;
     height: 42px;
+    margin-bottom: 6px;
 }
 
-.book-stack {
-    width: 300px;
-    height: 42px;
-}
-
-.book-bg {
+.book-btn {
     width: 300px;
     height: 42px;
     background-color: #1c1c1e;
     border-radius: 999px;
-}
-
-.book-name {
-    width: 300px;
-    height: 42px;
     font-size: 19px;
     color: #e5e5e5;
     text-align: center;
+    padding-top: 10px;
 }
 
 .dialog-overlay {

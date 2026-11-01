@@ -8,7 +8,7 @@ export default {
     data: {
         lastBookName: '',
         lastPage: 1,
-        lastReadLabel: '暂无记录'
+        lastReadLabel: '上次阅读\n暂无记录'
     },
 
     onShow() {
@@ -23,7 +23,7 @@ export default {
                 if (!name) {
                     that.lastBookName = '';
                     that.lastPage = 1;
-                    that.lastReadLabel = '暂无记录';
+                    that.lastReadLabel = '上次阅读\n暂无记录';
                     return;
                 }
                 storage.get({
@@ -34,19 +34,19 @@ export default {
                         var displayName = name.length > 10 ? name.substring(0, 10) + '…' : name;
                         that.lastBookName = name;
                         that.lastPage = page;
-                        that.lastReadLabel = displayName + ' · 第' + page + '页';
+                        that.lastReadLabel = '上次阅读\n' + displayName + ' · 第' + page + '页';
                     },
                     fail: function() {
                         that.lastBookName = name;
                         that.lastPage = 1;
-                        that.lastReadLabel = name + ' · 第1页';
+                        that.lastReadLabel = '上次阅读\n' + name + ' · 第1页';
                     }
                 });
             },
             fail: function() {
                 that.lastBookName = '';
                 that.lastPage = 1;
-                that.lastReadLabel = '暂无记录';
+                that.lastReadLabel = '上次阅读\n暂无记录';
             }
         });
     },
