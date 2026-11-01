@@ -1,7 +1,28 @@
-<stack class="read-stack">
+<stack class="read-root">
     <image class="read-bg" src="{{ backgroundImage }}" />
 
-    <div class="container" onswipe="handleSwipe">
-        <text class="content-text">{{ textContent }}</text>
+    <swiper
+        class="swiper"
+        loop="true"
+        duration="200"
+        vertical="true"
+        onchange="onSwiperChange">
+        <div class="page"></div>
+        <div class="page"></div>
+        <div class="page"></div>
+    </swiper>
+
+    <div class="read-column">
+        <div class="header">
+            <text class="status-text">{{ clockInfo }}</text>
+        </div>
+
+        <div class="text-layer" onswipe="onTextSwipe">
+            <text class="content">{{ pageText }}</text>
+        </div>
+
+        <div class="bottom-bar">
+            <input type="button" class="back-btn" onclick="goBack" value="&lt;" />
+        </div>
     </div>
 </stack>
