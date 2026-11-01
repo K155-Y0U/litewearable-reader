@@ -38,6 +38,15 @@
     text-align: center;
 }
 
+.count-text {
+    width: 300px;
+    height: 20px;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #8a8a8a;
+    text-align: center;
+}
+
 .empty-box {
     width: 320px;
     height: 300px;

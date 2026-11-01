@@ -5,6 +5,8 @@
             <text class="title">书籍</text>
         </div>
 
+        <text class="count-text">共 {{ fileList.length }} 本</text>
+
         <div class="empty-box" if="{{ fileList.length === 0 }}">
             <text class="empty-tip" onclick="goToTransPage">暂无本地小说\n请到传输页发送 TXT</text>
         </div>

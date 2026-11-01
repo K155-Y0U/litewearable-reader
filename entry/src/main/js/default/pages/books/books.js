@@ -27,7 +27,7 @@ export default {
         var that = this;
         try {
             file.list({
-                uri: 'internal://app',
+                uri: 'internal://app/',
                 success: function(data) {
                     var sourceList = [];
                     if (data && Array.isArray(data.fileList)) {
