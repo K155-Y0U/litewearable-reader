@@ -68,14 +68,12 @@
 .book-btn {
     width: 300px;
     height: 42px;
-    font-size: 19px;
-    color: #e5e5e5;
     background-color: #1c1c1e;
     border-radius: 999px;
-}
-
-.book-btn:active {
-    background-color: #2a2a2e;
+    font-size: 19px;
+    color: #e5e5e5;
+    text-align: center;
+    padding-top: 10px;
 }
 
 .dialog-overlay {

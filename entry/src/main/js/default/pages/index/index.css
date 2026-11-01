@@ -11,35 +11,66 @@
     width: 100%;
     height: 100%;
     background-color: #000000;
-    padding-top: 70px;
+    padding-top: 60px;
 }
 
-.main-title {
+.app-title {
     width: 160px;
     height: 36px;
-    margin-bottom: 12px;
-    font-size: 26px;
+    margin-bottom: 8px;
+    font-size: 28px;
     color: #ffffff;
     text-align: center;
 }
 
-.menu-btn {
-    width: 300px;
-    height: 44px;
-    margin-top: 8px;
+.last-card {
+    width: 320px;
+    height: 92px;
+    background-color: #1d2f2b;
+    border-radius: 24px;
+    font-size: 16px;
+    color: #e5e5e5;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.section-label {
+    width: 320px;
+    height: 18px;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #8a8a8a;
+    text-align: left;
+}
+
+.action-row {
+    width: 320px;
+    height: 56px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-btn {
+    height: 56px;
     font-size: 18px;
     color: #5EA1FF;
     background-color: #1c1c1e;
+    border-radius: 18px;
+}
+
+.half {
+    width: 150px;
+}
+
+.wide {
+    width: 320px;
+    height: 48px;
+    margin-top: 10px;
     border-radius: 999px;
 }
 
-.menu-btn:active {
+.action-btn:active {
     background-color: #2a2a2e;
-}
-
-.last-btn {
-    width: 320px;
-    height: 48px;
-    font-size: 15px;
-    color: #e5e5e5;
 }

@@ -10,8 +10,8 @@
         </div>
 
         <list class="book-list" else>
-            <list-item class="book-item" for="{{ fileList }}" onlongpress="confirmDeleteBook($idx)">
-                <input type="button" class="book-btn" value="{{ $item }}" onclick="openBook($idx)" />
+            <list-item class="book-item" for="{{ fileList }}">
+                <text class="book-btn" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">{{ $item }}</text>
             </list-item>
         </list>
     </div>
