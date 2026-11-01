@@ -28,6 +28,7 @@ export default {
         page2: '',
         currentIndex: 0,
         visibleIndex: 0,
+        progressLoaded: false,
         pageSize: 150,
         filePosition: 0,
         readBlockSize: 1000,
@@ -53,6 +54,7 @@ export default {
         this.filePosition = 0;
         this.currentIndex = 0;
         this.visibleIndex = 0;
+        this.progressLoaded = false;
         this.isEndOfFile = false;
         this._reading = false;
         this._pendingEnd = 0;
@@ -114,6 +116,7 @@ export default {
                     }
                     that.batteryLevel = Math.floor(data.level <= 1 ? data.level * 100 : data.level).toString();
                     that.clockInfo = that.timeText + '  ' + that.batteryLevel + '%';
+                    that.saveCurrentProgress();
                 }
             });
         } catch (e) {
@@ -154,16 +157,21 @@ export default {
             key: progressKey(that.bookName),
             success: function(data) {
                 that.currentIndex = data ? parseInt(data) : 0;
+                that.progressLoaded = true;
                 that.startReading();
             },
             fail: function() {
                 that.currentIndex = 0;
+                that.progressLoaded = true;
                 that.startReading();
             }
         });
     },
 
     saveCurrentProgress() {
+        if (!this.progressLoaded || !this.bookName) {
+            return;
+        }
         storage.set({
             key: progressKey(this.bookName),
             value: this.currentIndex.toString()
