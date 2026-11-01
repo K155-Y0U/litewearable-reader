@@ -1,9 +1,6 @@
 /**
- * 阅读页：swiper 三页垂直循环翻页
- * - swiper loop + vertical，固定尺寸（对齐已真机验证的测试页）
- * - 三页槽位：当前页 / 下一页 / 上一页，按 swiper 索引动态映射
- * - 文本按 readBlockSize(1000) 分块读取，按需预读
- * - 保留进度记忆、时间电量、自定义背景
+ * 阅读页：swiper 负责手势/页面层，正文用 swiper 外层的单个 text 渲染。
+ * 这样绕开 Lite swiper 子 text 不显示的问题。
  */
 import file from '@system.file';
 import router from '@system.router';
@@ -16,9 +13,7 @@ export default {
     data: {
         bookName: '',
         fullText: '',
-        page0: '正在加载中…',
-        page1: '',
-        page2: '',
+        pageText: '正在加载中…',
         currentIndex: 0,
         visibleIndex: 0,
         progressLoaded: false,
@@ -43,6 +38,7 @@ export default {
 
     onShow() {
         this._active = true;
+        this._lastManual = 0;
         this.fullText = '';
         this.filePosition = 0;
         this.currentIndex = 0;
@@ -52,9 +48,7 @@ export default {
         this._reading = false;
         this._pendingEnd = 0;
         this._pendingDone = null;
-        this.page0 = '正在加载中…';
-        this.page1 = '';
-        this.page2 = '';
+        this.pageText = '正在加载中…';
         this.clockInfo = this.timeText + '  ' + this.batteryLevel + '%';
 
         this.updateSystemInfo();
@@ -184,14 +178,11 @@ export default {
     startReading() {
         var that = this;
         this.ensureText(this.currentIndex + this.pageSize * 2, function() {
-            that.renderAll();
+            that.renderCurrent();
             that.markRecent();
         });
     },
 
-    /**
-     * 顺序读取文件，直到 fullText 覆盖 neededEnd 或到达文件尾
-     */
     ensureText(neededEnd, done) {
         var that = this;
         if (this.fullText.length >= neededEnd || this.isEndOfFile) {
@@ -247,7 +238,7 @@ export default {
             fail: function() {
                 that.isEndOfFile = true;
                 that._reading = false;
-                that.page0 = '读取失败或文件不存在';
+                that.pageText = '读取失败或文件不存在';
                 var cb = that._pendingDone;
                 that._pendingDone = null;
                 that._pendingEnd = 0;
@@ -258,34 +249,11 @@ export default {
         });
     },
 
-    /**
-     * swiper 三个槽位按当前可见索引映射：
-     *   visible=0: page0=当前, page1=下一页, page2=上一页
-     *   visible=1: page0=上一页, page1=当前, page2=下一页
-     *   visible=2: page0=下一页, page1=上一页, page2=当前
-     */
-    renderAll() {
+    renderCurrent() {
         if (!this._active) {
             return;
         }
-        var cur = this.getPageAt(this.currentIndex);
-        var next = this.getPageAt(this.currentIndex + this.pageSize);
-        var prev = this.getPageAt(this.currentIndex - this.pageSize);
-        var vi = this.visibleIndex;
-
-        if (vi === 0) {
-            this.page0 = cur;
-            this.page1 = next;
-            this.page2 = prev;
-        } else if (vi === 1) {
-            this.page0 = prev;
-            this.page1 = cur;
-            this.page2 = next;
-        } else {
-            this.page0 = next;
-            this.page1 = prev;
-            this.page2 = cur;
-        }
+        this.pageText = this.getPageAt(this.currentIndex);
     },
 
     getPageAt(offset) {
@@ -298,7 +266,6 @@ export default {
             }
             return '正在加载…';
         }
-
         var end = offset + this.pageSize;
         if (end > this.fullText.length) {
             end = this.fullText.length;
@@ -306,8 +273,39 @@ export default {
         return this.fullText.substring(offset, end);
     },
 
+    turnForward() {
+        this.currentIndex += this.pageSize;
+        this.saveCurrentProgress();
+        var that = this;
+        this.ensureText(this.currentIndex + this.pageSize * 2, function() {
+            that.renderCurrent();
+        });
+    },
+
+    turnBackward() {
+        this.currentIndex = Math.max(0, this.currentIndex - this.pageSize);
+        this.saveCurrentProgress();
+        this.renderCurrent();
+    },
+
+    onTextSwipe(e) {
+        if (!this._active) {
+            return;
+        }
+        if (e.direction === 'up' || e.direction === 'left') {
+            this._lastManual = Date.now();
+            this.turnForward();
+        } else if (e.direction === 'down' || e.direction === 'right') {
+            this._lastManual = Date.now();
+            this.turnBackward();
+        }
+    },
+
     onSwiperChange(e) {
         if (!this._active) {
+            return;
+        }
+        if (Date.now() - this._lastManual < 400) {
             return;
         }
         var oldIndex = this.visibleIndex;
@@ -315,21 +313,12 @@ export default {
         if (newIndex === oldIndex) {
             return;
         }
-
         var delta = (newIndex - oldIndex + 3) % 3;
         this.visibleIndex = newIndex;
-
         if (delta === 1) {
-            this.currentIndex += this.pageSize;
-            this.saveCurrentProgress();
-            var that = this;
-            this.ensureText(this.currentIndex + this.pageSize * 2, function() {
-                that.renderAll();
-            });
+            this.turnForward();
         } else if (delta === 2) {
-            this.currentIndex = Math.max(0, this.currentIndex - this.pageSize);
-            this.saveCurrentProgress();
-            this.renderAll();
+            this.turnBackward();
         }
     },
 

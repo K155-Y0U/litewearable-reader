@@ -1,27 +1,25 @@
 <stack class="read-root">
     <image class="read-bg" src="{{ backgroundImage }}" />
 
+    <swiper
+        class="swiper"
+        loop="true"
+        duration="200"
+        vertical="true"
+        onchange="onSwiperChange">
+        <div class="page"></div>
+        <div class="page"></div>
+        <div class="page"></div>
+    </swiper>
+
     <div class="read-column">
         <div class="header">
             <text class="status-text">{{ clockInfo }}</text>
         </div>
 
-        <swiper
-            class="swiper"
-            loop="true"
-            duration="200"
-            vertical="true"
-            onchange="onSwiperChange">
-            <div class="page">
-                <text class="content">{{ page0 }}</text>
-            </div>
-            <div class="page">
-                <text class="content">{{ page1 }}</text>
-            </div>
-            <div class="page">
-                <text class="content">{{ page2 }}</text>
-            </div>
-        </swiper>
+        <div class="text-layer" onswipe="onTextSwipe">
+            <text class="content">{{ pageText }}</text>
+        </div>
 
         <div class="bottom-bar">
             <input type="button" class="back-btn" onclick="goBack" value="&lt;" />

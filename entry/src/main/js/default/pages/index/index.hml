@@ -6,11 +6,21 @@
 
         <text class="section-label">快捷操作</text>
 
-        <div class="action-row">
-            <input type="button" class="action-btn half" onclick="goToBooks" value="书  书籍" />
-            <input type="button" class="action-btn half" onclick="goToSetting" value="设  设置" />
-        </div>
+        <div class="quick-row">
+            <div class="quick-wrap" onclick="goToBooks">
+                <image class="quick-img" src="/common/quick_books.bin" />
+                <text class="quick-label">书籍</text>
+            </div>
 
-        <input type="button" class="action-btn wide" onclick="goToTransPage" value="传  传输书籍" />
+            <div class="quick-wrap" onclick="goToSetting">
+                <image class="quick-img" src="/common/quick_settings.bin" />
+                <text class="quick-label">设置</text>
+            </div>
+
+            <div class="quick-wrap" onclick="goToTransPage">
+                <image class="quick-img" src="/common/quick_folder.bin" />
+                <text class="quick-label">传输</text>
+            </div>
+        </div>
     </div>
 </stack>

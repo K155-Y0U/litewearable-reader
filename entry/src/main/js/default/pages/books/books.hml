@@ -10,8 +10,9 @@
         </div>
 
         <div class="book-list" else>
-            <div class="book-row" for="{{ fileList }}">
-                <text class="book-btn" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">{{ $item }}</text>
+            <div class="book-row" for="{{ fileList }}" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">
+                <image class="book-icon" src="/common/quick_books.bin" />
+                <text class="book-name">{{ $item }}</text>
             </div>
         </div>
     </div>
