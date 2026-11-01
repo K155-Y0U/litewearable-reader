@@ -175,45 +175,9 @@ export default {
         if (!this.bookName) {
             return;
         }
-        var name = this.bookName;
-
-        storage.get({
+        storage.set({
             key: 'recent_0',
-            success: function(r0) {
-                storage.get({
-                    key: 'recent_1',
-                    success: function(r1) {
-                        storage.get({
-                            key: 'recent_2',
-                            success: function(r2) {
-                                var list = [];
-                                if (r0 && r0 !== name) {
-                                    list.push(r0);
-                                }
-                                if (r1 && r1 !== name && list.indexOf(r1) === -1) {
-                                    list.push(r1);
-                                }
-                                if (r2 && r2 !== name && list.indexOf(r2) === -1) {
-                                    list.push(r2);
-                                }
-                                list.unshift(name);
-                                storage.set({ key: 'recent_0', value: list[0] || '' });
-                                storage.set({ key: 'recent_1', value: list[1] || '' });
-                                storage.set({ key: 'recent_2', value: list[2] || '' });
-                            },
-                            fail: function() {
-                                storage.set({ key: 'recent_0', value: name });
-                            }
-                        });
-                    },
-                    fail: function() {
-                        storage.set({ key: 'recent_0', value: name });
-                    }
-                });
-            },
-            fail: function() {
-                storage.set({ key: 'recent_0', value: name });
-            }
+            value: this.bookName
         });
     },
 
