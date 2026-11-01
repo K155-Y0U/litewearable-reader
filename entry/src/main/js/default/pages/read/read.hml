@@ -3,7 +3,6 @@
 
     <div class="read-column">
         <div class="header">
-            <input type="button" class="back-btn" onclick="goBack" value="&lt;" />
             <text class="status-text">{{ clockInfo }}</text>
         </div>
 
@@ -23,5 +22,9 @@
                 <text class="content">{{ page2 }}</text>
             </div>
         </swiper>
+
+        <div class="bottom-bar">
+            <input type="button" class="back-btn" onclick="goBack" value="&lt;" />
+        </div>
     </div>
 </stack>

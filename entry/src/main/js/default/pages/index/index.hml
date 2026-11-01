@@ -2,21 +2,10 @@
     <div class="container">
         <text class="main-title">阅读</text>
 
-        <div class="menu-btn last-btn" onclick="openLastBook">
-            <text class="menu-title">上次阅读</text>
-            <text class="menu-sub">{{ lastBookLabel }}</text>
-        </div>
+        <input type="button" class="menu-btn last-btn" onclick="openLastBook" value="{{ lastReadLabel }}" />
 
-        <div class="menu-btn" onclick="goToBooks">
-            <text class="menu-title">书籍</text>
-        </div>
-
-        <div class="menu-btn" onclick="goToSetting">
-            <text class="menu-title">设置</text>
-        </div>
-
-        <div class="menu-btn" onclick="goToTransPage">
-            <text class="menu-title">传输书籍</text>
-        </div>
+        <input type="button" class="menu-btn" onclick="goToBooks" value="书籍" />
+        <input type="button" class="menu-btn" onclick="goToSetting" value="设置" />
+        <input type="button" class="menu-btn" onclick="goToTransPage" value="传输书籍" />
     </div>
 </stack>

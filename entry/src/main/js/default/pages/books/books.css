@@ -63,19 +63,19 @@
     margin-bottom: 6px;
     justify-content: center;
     align-items: center;
+}
+
+.book-btn {
+    width: 300px;
+    height: 42px;
+    font-size: 19px;
+    color: #e5e5e5;
     background-color: #1c1c1e;
     border-radius: 999px;
 }
 
-.book-item:active {
+.book-btn:active {
     background-color: #2a2a2e;
-}
-
-.book-name {
-    width: 280px;
-    font-size: 19px;
-    color: #e5e5e5;
-    text-align: center;
 }
 
 .dialog-overlay {
