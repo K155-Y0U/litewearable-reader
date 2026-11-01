@@ -1,24 +1,34 @@
 <stack class="page-stack">
     <div class="container">
-        <text class="main-title">我的书架</text>
+        <text class="main-title">阅读</text>
 
-        <div class="empty-box" if="{{fileList.length === 0}}">
+        <text class="section-title">最近阅读</text>
+        <div class="recent-box">
+            <text class="empty-recent" if="{{ recentBooks.length === 0 }}">暂无最近阅读</text>
+            <div class="recent-item" for="{{ recentBooks }}" onclick="openRecent($idx)">
+                <text class="recent-name">{{ $item.name }}</text>
+                <text class="recent-progress">{{ $item.label }}</text>
+            </div>
+        </div>
+
+        <text class="section-title">书架</text>
+        <div class="empty-box" if="{{ fileList.length === 0 }}">
             <text class="empty-tip" onclick="goToTransPage">暂无本地小说\n点击下方按钮传输 TXT</text>
         </div>
 
         <list class="book-list" else>
-            <list-item class="book-item" for="{{fileList}}" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">
+            <list-item class="book-item" for="{{ fileList }}" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">
                 <text class="book-name">{{ $item }}</text>
             </list-item>
         </list>
 
-        <input type="button" class="trans-btn" onclick="goToTransPage" value="传输书籍" />
         <input type="button" class="setting-btn" onclick="goToSetting" value="设置" />
+        <input type="button" class="trans-btn" onclick="goToTransPage" value="传输书籍" />
     </div>
 
     <div class="dialog-overlay" if="{{ showDeleteDialog }}">
         <div class="dialog-box">
-            <text class="dialog-title">删除书籍？</text>
+            <text class="dialog-title">删除书籍</text>
             <text class="dialog-message">{{ deleteTargetName }}</text>
             <text class="dialog-error" if="{{ deleteError }}">{{ deleteError }}</text>
             <div class="dialog-ops">

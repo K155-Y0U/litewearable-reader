@@ -1,11 +1,16 @@
 import file from '@system.file';
 import router from '@system.router';
+import storage from '@system.storage';
+import { progressKey } from '../../common/progress.js';
 
 var MAX_BOOKS = 80;
+var PAGE_SIZE = 150;
 
 export default {
     data: {
         fileList: [],
+        recentBooks: [],
+        filesScanned: false,
         showDeleteDialog: false,
         deleteTargetIndex: -1,
         deleteTargetName: '',
@@ -14,7 +19,81 @@ export default {
     },
 
     onShow() {
+        this.loadRecentBooks();
         this.scanLocalFiles();
+    },
+
+    loadRecentBooks() {
+        var that = this;
+        var keys = ['recent_0', 'recent_1', 'recent_2'];
+        var names = [];
+        var i = 0;
+
+        function nextSlot() {
+            if (i >= keys.length) {
+                that.loadRecentProgress(names, 0, []);
+                return;
+            }
+            var key = keys[i];
+            i++;
+            storage.get({
+                key: key,
+                success: function(value) {
+                    if (value) {
+                        names.push(value);
+                    }
+                    nextSlot();
+                },
+                fail: function() {
+                    nextSlot();
+                }
+            });
+        }
+
+        nextSlot();
+    },
+
+    loadRecentProgress(names, index, out) {
+        var that = this;
+        if (index >= names.length) {
+            that.recentBooks = out;
+            that.filterRecent();
+            return;
+        }
+
+        var name = names[index];
+        storage.get({
+            key: progressKey(name),
+            success: function(value) {
+                var currentIndex = value ? parseInt(value) : 0;
+                var page = Math.floor(currentIndex / PAGE_SIZE) + 1;
+                out.push({
+                    name: name,
+                    label: '第 ' + page + ' 页'
+                });
+                that.loadRecentProgress(names, index + 1, out);
+            },
+            fail: function() {
+                out.push({
+                    name: name,
+                    label: '第 1 页'
+                });
+                that.loadRecentProgress(names, index + 1, out);
+            }
+        });
+    },
+
+    filterRecent() {
+        if (!this.filesScanned) {
+            return;
+        }
+        var out = [];
+        for (var i = 0; i < this.recentBooks.length; i++) {
+            if (this.fileList.indexOf(this.recentBooks[i].name) !== -1) {
+                out.push(this.recentBooks[i]);
+            }
+        }
+        this.recentBooks = out;
     },
 
     scanLocalFiles() {
@@ -57,6 +136,8 @@ export default {
                         }
                     }
                     that.fileList = txtFiles;
+                    that.filesScanned = true;
+                    that.filterRecent();
                 },
                 fail: function(err, code) {
                     console.error('扫描失败: ' + code);
@@ -71,10 +152,25 @@ export default {
         if (this.showDeleteDialog || index < 0 || index >= this.fileList.length) {
             return;
         }
+        this.openBookByName(this.fileList[index]);
+    },
+
+    openRecent(index) {
+        if (this.showDeleteDialog || index < 0 || index >= this.recentBooks.length) {
+            return;
+        }
+        var name = this.recentBooks[index].name;
+        if (this.fileList.indexOf(name) === -1) {
+            return;
+        }
+        this.openBookByName(name);
+    },
+
+    openBookByName(name) {
         router.replace({
             uri: 'pages/read/read',
             params: {
-                bookName: this.fileList[index]
+                bookName: name
             }
         });
     },
