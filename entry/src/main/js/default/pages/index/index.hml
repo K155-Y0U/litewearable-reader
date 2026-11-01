@@ -1,25 +1,29 @@
 <stack class="page-stack">
     <div class="container">
-        <text class="app-title">阅读</text>
+        <text class="main-title">我的书架</text>
 
-        <text class="last-card" onclick="openLastBook">{{ lastReadLabel }}</text>
+        <div class="empty-box" if="{{fileList.length === 0}}">
+            <text class="empty-tip" onclick="goToTransPage">暂无本地小说\n点击下方按钮传输 TXT</text>
+        </div>
 
-        <text class="section-label">快捷操作</text>
+        <list class="book-list" else>
+            <list-item class="book-item" for="{{fileList}}" onclick="openBook($idx)" onlongpress="confirmDeleteBook($idx)">
+                <text class="book-name">{{ $item }}</text>
+            </list-item>
+        </list>
 
-        <div class="quick-row">
-            <div class="quick-wrap" onclick="goToBooks">
-                <image class="quick-img" src="/common/quick_folder.bin" />
-                <text class="quick-label">书籍</text>
-            </div>
+        <input type="button" class="trans-btn" onclick="goToTransPage" value="传输书籍" />
+        <input type="button" class="setting-btn" onclick="goToSetting" value="设置" />
+    </div>
 
-            <div class="quick-wrap" onclick="goToSetting">
-                <image class="quick-img" src="/common/quick_settings.bin" />
-                <text class="quick-label">设置</text>
-            </div>
-
-            <div class="quick-wrap" onclick="goToTransPage">
-                <image class="quick-img" src="/common/quick_bluetooth.bin" />
-                <text class="quick-label">传输</text>
+    <div class="dialog-overlay" if="{{ showDeleteDialog }}">
+        <div class="dialog-box">
+            <text class="dialog-title">删除书籍？</text>
+            <text class="dialog-message">{{ deleteTargetName }}</text>
+            <text class="dialog-error" if="{{ deleteError }}">{{ deleteError }}</text>
+            <div class="dialog-ops">
+                <input type="button" class="dialog-btn-cancel" onclick="cancelDeleteBook" value="取消" />
+                <input type="button" class="dialog-btn-ok" onclick="doDeleteBook" value="删除" />
             </div>
         </div>
     </div>
