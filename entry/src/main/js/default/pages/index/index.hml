@@ -8,7 +8,7 @@
 
         <div class="quick-row">
             <div class="quick-wrap" onclick="goToBooks">
-                <image class="quick-img" src="/common/quick_books.bin" />
+                <image class="quick-img" src="/common/quick_folder.bin" />
                 <text class="quick-label">书籍</text>
             </div>
 
@@ -18,7 +18,7 @@
             </div>
 
             <div class="quick-wrap" onclick="goToTransPage">
-                <image class="quick-img" src="/common/quick_folder.bin" />
+                <image class="quick-img" src="/common/quick_bluetooth.bin" />
                 <text class="quick-label">传输</text>
             </div>
         </div>
